@@ -1,6 +1,5 @@
 function funcEvento(a){
     $('#contentEventi').empty();
-    alert(a);
     var json = {"descEvento":a};
     $.getJSON('scriptPHP/getDescEvento.php',json,function(response) {
         if(response){
@@ -13,6 +12,34 @@ function funcEvento(a){
                 table.append(row);
             });
             $('#contentEventi').append(table);
+        }
+    });
+}
+
+function funcUtente(a){
+    $('#contentSquadra').empty();
+    $.getJSON('scriptPHP/getUtenti.php',function(response) {
+        if(response){
+            var table = $('<table id="tbSquadra" class="responsive-table"></table>');
+            $.each(response,function(k,v){
+                var row = $('<tr><td><h3>'+v['Nickname']+'</h3></td><td> '+v['Ruolo']+'</td><td> '+v['Permessi']+'</td></tr><tr><td colspan="3" class="bordo">'+v['Descrizione']+'</td></tr>');
+                table.append(row);
+            });
+            $('#contentSquadra').append(table);
+        }
+    });
+} 
+
+function funcCampo(a){
+    $('#contentCampo').empty();
+    $.getJSON('scriptPHP/getCampi.php',function(response) {
+        if(response){
+            var table = $('<table id="tbSquadra" class="responsive-table"></table>');
+            $.each(response,function(k,v){
+                var row = $('<tr><td class="bordo"><h3>'+v['Nome']+'</h3></td><td class="bordo"> '+v['Via']+'</td></tr>');
+                table.append(row);
+            });
+            $('#contentCampo').append(table);
         }
     });
 }
@@ -69,23 +96,7 @@ $(document).ready(function(){
             if(response){
                 var table = $('<table id="tbSquadra" class="responsive-table"></table>');
                 $.each(response,function(k,v){
-                    var row = $('<tr><a id="descUtente" class="black-text" value="'+v['id']+'"><td><h3>'+v['Nickname']+'</h3></td></a><td> '+v['Ruolo']+'</td><td> '+v['Stato']+'</td></tr><tr><td colspan="3" class="bordo">'+v['Descrizione']+'</td></tr>');
-                    table.append(row);
-                });
-                $('#contentSquadra').append(table);
-            }
-        });
-    });
-    
-    $('#descUtente').click(function() {
-        $('#contentSquadra').empty();
-        var utente = $('#descUtente').val();
-        alert(utente);
-        $.getJSON('scriptPHP/getUtenti.php',function(response) {
-            if(response){
-                var table = $('<table id="tbSquadra" class="responsive-table"></table>');
-                $.each(response,function(k,v){
-                    var row = $('<tr><td><h3>'+v['Nickname']+'</h3></td><td> '+v['Ruolo']+'</td><td> '+v['Permessi']+'</td></tr><tr><td colspan="3" class="bordo">'+v['Descrizione']+'</td></tr>');
+                    var row = $('<tr><a id="descUtente" class="black-text" value="'+v['id']+'" onclick="funcUtente('+v['id']+');return false;"><td><h3>'+v['Nickname']+'</h3></td></a><td> '+v['Ruolo']+'</td><td> '+v['Stato']+'</td></tr><tr><td colspan="3" class="bordo">'+v['Descrizione']+'</td></tr>');
                     table.append(row);
                 });
                 $('#contentSquadra').append(table);
@@ -107,16 +118,12 @@ $(document).ready(function(){
             if(response){
                 var table = $('<table id="tbSquadra" class="responsive-table"></table>');
                 $.each(response,function(k,v){
-                    var row = $('<tr><td class="bordo"><h3><a id="descCampo" class="black-text" href="#" value="'+v['id']+'">'+v['Nome']+'</a></h3></td><td class="bordo"> '+v['Via']+'</td></tr>');
+                    var row = $('<tr><td class="bordo"><h3><a id="descCampo" class="black-text" onclick="funcCampo('+v['id']+');return false;" value="'+v['id']+'">'+v['Nome']+'</a></h3></td><td class="bordo"> '+v['Via']+'</td></tr>');
                     table.append(row);
                 });
                 $('#contentCampo').append(table);
             }
         });
-    });
-    
-    $('#campi').click(function() {
-        
     });
     
     $('#btnLogin').click(function(){
@@ -151,6 +158,7 @@ $(document).ready(function(){
             if(response){
                     alert(response);
                     $('#btnLogout').hide();
+                    $('#tue_asg').hide();
                 }
             });
     });
@@ -179,6 +187,7 @@ $(document).ready(function(){
                     alert(response);
                     $('#contentSignin').hide();
                     $('#btnLogout').show();
+                    $('#tue_asg').show();
                 }
             });
         });
