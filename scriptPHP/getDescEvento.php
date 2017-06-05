@@ -6,7 +6,8 @@
     try{
     	
 		$dbh = new PDO('mysql:host='.$host.';dbname='.$dbNome,$username,$password);
-		$stm = $dbh->prepare('SELECT * FROM SitoSoftairLupiDiToscana.Campo');
+		$stm = $dbh->prepare('SELECT * FROM SitoSoftairLupiDiToscana.Evento e WHERE e.id=:evento');
+		$stm->bindValue(':evento',$_GET['descEvento']);
 		if($stm->execute() == true){
 			echo json_encode($stm->fetchAll());
 		}

@@ -7,7 +7,7 @@
     
     try{
 		$dbh = new PDO('mysql:host='.$host.';dbname='.$dbNome,$username,$password);
-		$stm = $dbh->prepare("INSERT INTO SitoSoftairLupiDiToscana.Utente (Nickname,Password,Nome,Cognome,Email,Ruolo) VALUE(:username,:password,:nome,:cognome,:email,'1')");
+		$stm = $dbh->prepare("INSERT INTO SitoSoftairLupiDiToscana.Utente (Nickname,Password,Nome,Cognome,Email,Ruolo,Permessi) VALUE(:username,:password,:nome,:cognome,:email,10,2)");
 		$stm->bindValue(':username',$_GET['nick']);
 		$stm->bindValue(':password',$_GET['pass']);
 		$stm->bindValue(':nome',$_GET['nome']);
