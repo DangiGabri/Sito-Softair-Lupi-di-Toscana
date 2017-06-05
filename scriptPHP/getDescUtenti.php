@@ -6,7 +6,8 @@
     try{
     	
 		$dbh = new PDO('mysql:host='.$host.';dbname='.$dbNome,$username,$password);
-		$stm = $dbh->prepare('SELECT e.id,e.Nome,e.Data,e.Descrizione,c.NomeCampo,c.idCampo FROM SitoSoftairLupiDiToscana.Evento e inner join SitoSoftairLupiDiToscana.Campo c on (c.idCampo=e.idCampo)');
+		$stm = $dbh->prepare('SELECT p.Stato, r.Ruolo, u.id, u.Nickname, u.Descrizione FROM SitoSoftairLupiDiToscana.Utente u inner join SitoSoftairLupiDiToscana.Permessi p on (u.Permessi=p.id) inner join SitoSoftairLupiDiToscana.Ruolo r on (u.Ruolo=r.id) WHERE u.id=:utente');
+		$stm->bindValue(':utente',$_GET['descUtente']);
 		if($stm->execute() == true){
 			echo json_encode($stm->fetchAll());
 		}

@@ -15,7 +15,7 @@
 	<header>
 		<img src="immagini/copertina.jpg" class="stretchImg">
 	</header>
-	<body>
+	<body id="principale">
 			<nav>
 				<div class="nav-wrapper #c62828 red darken-3" >
 					<ul class="left">
@@ -32,7 +32,7 @@
 					</ul>
 				</div>
 			</nav>
-			<div class="container row">
+			<div class="container row #ffffff white">
 				<div id="contentLogin" class="col s8 offset-s2">
 					
 				</div>
@@ -40,10 +40,9 @@
 					
 				</div>
 				<div id="contentEventi" class="col s8 offset-s2">
-					
-				</div>
-				<div id="contentUtenti" class="col s8 offset-s2">
-					
+					<div id="contentSelect">
+						
+					</div>
 				</div>
 				<div id="contentASG" class="col s8 offset-s2">
 					
@@ -74,6 +73,18 @@
 		
 		#faqs{
 			background-color: #616161;
+		}
+		
+		#principale{
+			background-image: url("immagini/roma.jpg");
+		}
+		
+		#btnGestione{
+			text-align: center;
+		}
+		
+		input{
+			text-align: center;
 		}
 	</style>
 </html>

@@ -10,9 +10,11 @@
 	    try{
 	    	
 			$dbh = new PDO('mysql:host='.$host.';dbname='.$dbNome,$username,$password);
-			$stm = $dbh->prepare('SELECT p.id FROM SitoSoftairLupiDiToscana.Utente u inner join SitoSoftairLupiDiToscana.Permessi p on (u.Permessi=p.id) WHERE u.Password=:password and u.Nickname=:username');
-			$stm->bindValue(':username',$_GET['nick']);
-			$stm->bindValue(':password',$_GET['pass']);
+			$stm = $dbh->prepare('UPDATE FROM SitoSoftairLupiDiToscana.Evento e inner join SitoSoftairLupiDiToscana.Campo c on (c.id=e.idCampo) VALUES');
+			$stm->bindValue(':username',$_GET['nome']);
+			$stm->bindValue(':data',$_GET['data']);
+			$stm->bindValue(':desc',$_GET['descrizione']);
+			$stm->bindValue(':id',$_GET['id']);
 			$stm->execute();
 			if($stm->rowCount()>0){
 				$a = $stm->fetchAll();
