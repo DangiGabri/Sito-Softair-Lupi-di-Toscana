@@ -1,5 +1,6 @@
 function funcEvento(a){
-    $('#contentEventi').empty();
+    $('#contentEventiDinamic').empty();
+    
     var json = {"descEvento":a};
     $.getJSON('scriptPHP/getDescEvento.php',json,function(response) {
         if(response){
@@ -12,50 +13,83 @@ function funcEvento(a){
                 table.append(row);
             });
             
+            $('#contentEventiDinamic').append(table);
+            
+            $('#btnModificaEvento').hide();
+            $('#btnPartecipa').hide();
+            
             $.getJSON('scriptPHP/eventoPermisWiew.php',function(response) {
                 if(response){
-                    if(response=='hide' || response=='null'){
-                        $('#btnModificaEvento').hide();
+                    if(response=='show'){
+                        $('#btnModificaEvento').show();
                     }
                 }
             });
             
             $.getJSON('scriptPHP/sessionWiew.php',function(response){
                 if(response){
-                    if(response=='hide'){
-                        $('#btnPartecipa').hide();
+                    if(response!="null"){
+                        $('#btnPartecipa').show();
                     }
                 }
             });
             
-            $('#contentEventi').append(table);
-            
             $('#btnModificaEvento').click(function() {
-                $('#contentEventi').empty();
-                var text = $('<div align="center">Nome<input type="text" id="nomeEvento" value=""></br>Data<input id="dataEvento" type="date" class="datepicker"></br>Descrizione<textarea id="descrizioneEvento" class="materialize-textarea"></textarea></br><button type="button" class="btn btn-primary navbar-btn" id="modificaEvento">MODIFICA</button></br></div>');
-                $('#contentEventi').append(text);
-                $('.datepicker').pickadate({
-                    selectMonths: true,
-                    selectYears: 15
-                });
-                var dataA =  $('#dataEvento').val();
-                var dateAr = dataA.split('/');
-                var newDate = dateAr[2] + '-' + dateAr[1] + '-' + dateAr[0];
-                var nome = $('#nomeEvento').val();
-                var descrizione = $('#descrizioneEvento').val();
-                var json = {"id":a,"nome":nome, "descrizione":descrizione, "data":newDate};
-                $.getJSON('scriptPHP/updateEvento.php',json,function(response) {
-                if(response){
+                $('#btnInserisciEvento').hide();
+                $('#contentInserimentoEventi').show();
+                $('#selectCampoEvento').show();
+                $('#contentEventiDinamic').empty();
+                
+                $.getJSON('scriptPHP/getCampi.php',function(response) {
+                        if(response){
+                            $.each(response,function(k,v){
+                                var row = $('<option value="'+v['idCampo']+'">'+v['NomeCampo']+'</option>');
+                                $('#selectCampoEvento').append(row);
+                            });
+                        }
+                    });
+                
+                var button = $('<button type="button" class="btn btn-primary navbar-btn" id="modificaEvento">MODIFICA</button>')
+                $('#btnEventoInserisciModifica').empty();
+                $('#btnEventoInserisciModifica').append(button);
+                
+                $('#modificaEvento').click(function(){
+                    var data =  $('#dataInserimentoEvento').val();
+                    var dateAr = data.split(' ');
                     
-                }
-            });
+                    var json = {"mese":dateAr[1]};
+                    $.getJSON('scriptPHP/monthConverter.php',json,function(response){
+                        if(response){
+                            var mese = response;
+                            var data =  $('#dataInserimentoEvento').val();
+                            var dateAr = data.split(' ');
+                            dateAr[1]= mese;
+                            
+                            var newDate = dateAr[2] + '-' + dateAr[1] + '-' + dateAr[0];
+                            
+                            var nome = $('#nomeEvento').val();
+                            var descrizione = $('#descrizioneEvento').val();
+                            var campo = $('#selectCampoEvento').val();
+                            
+                            var json = {"nome":nome, "descrizione":descrizione, "data":newDate, "campo":campo};
+                    
+                            $.getJSON('scriptPHP/updateEvento.php',json,function(response){
+                                if(response){
+                                    alert(response);
+                                    $('#contentInserimentoEventi').hide();
+                                }
+                            });
+                        }
+                    });
+                });
             });
         }
     });
 }
 
 function funcUtente(a){
-    $('#contentSquadra').empty();
+    $('#contentSquadraDinamic').empty();
+    
     var json = {"descUtente":a};
     $.getJSON('scriptPHP/getDescUtenti.php',json,function(response) {
         if(response){
@@ -63,50 +97,148 @@ function funcUtente(a){
             $.each(response,function(k,v){
                 var row = $('<tr><td><h3>'+v['Nickname']+'</h3></td><td> '+v['Ruolo']+'</td><td> '+v['Stato']+'</td></tr><tr><td colspan="3" class="bordo">'+v['Descrizione']+'</td></tr><tr><td id="btnGestione" colspan="3"><button id="btnModificaUtente" class="btn btn-primary">Modifica</button></td></tr>');
                 table.append(row);
-            });
+            })
+            
+            $('#contentSquadraDinamic').append(table);
+            $('#btnModificaUtente').hide();
+            
             $.getJSON('scriptPHP/utentePermisWiew.php',function(response) {
                 if(response){
-                    if(response=='hide' || response=='null'){
-                        $('#btnModificaUtente').hide();
+                    if(response=='show'){
+                        $('#btnModificaUtente').show();
                     }
                 }
             });
-            $('#contentSquadra').append(table);
+            
+            $('#btnModificaUtente').click(function() {
+                $('#contentSquadraDinamic').hide();
+                $('#contentUpdateUtente').show();
+                // $('#selectRuoliUtente').show();
+                // $('#selectPermessiUtente').show();
+                $('#nickUtenteSelezionato').empty();
+                $('#selectRuoliUtente').empty();
+                $('#selectPermessiUtente').empty();
+                
+                
+                
+                $('#colonnaSelectRuoli').find('*').not('#selectRuoliUtente').remove();
+                $('#colonnaSelectPermessi').find('*').not('#selectPermessiUtente').remove();
+                
+                $.each(response,function(k,v){
+                    var label = $('<div align="center"><h3>' + v['Nickname'] + '</h3></div>')
+                    $('#nickUtenteSelezionato').append(label);
+                    var row = $(v['Descrizione']);
+                    alert(row);
+                    document.getElementById("descrizioneUtenteUpdate").value = row[0];
+                });
+                
+                $.getJSON('scriptPHP/getRuoli.php',function(response) {
+                    if(response){
+                        $.each(response,function(k,v){
+                            var row1 = $('<option value="'+v['id']+'" data-icon="immagini/ruoli/'+v['Ruolo']+'.png" class="left circle">'+v['Ruolo']+'</option>');
+                            $('#selectRuoliUtente').append(row1);
+                        });
+                    }
+                });
+                
+                $.getJSON('scriptPHP/getPermessi.php',function(response) {
+                    if(response){
+                        $.each(response,function(k,v){
+                            var row = $('<option value="'+v['idPermesso']+'">'+v['Stato']+'</option>');
+                            $('#selectPermessiUtente').append(row);
+                        });
+                        $(document).ready(function() {
+                            $('.selectInit').material_select();
+                        });
+                    }
+                });
+                
+                $('btnModificaPermessiUtente').click(function(){
+                    var ruolo = $('#selectRuoliUtente').val();
+                    var permesso = $('#selectPermessiUtente').val();
+                    var desc = $('#descrizioneUtenteUpdate').val();
+                    
+                    var json = {"ruolo":ruolo, "permesso":permesso, 'desc':desc};
+                    
+                    alert(json);
+                    // $.getJSON('scriptPHP/insertEvento.php',json,function(response){
+                    //     if(response){
+                    //         alert(response);
+                    //         $('#contentInserimentoEventi').hide();
+                    //     }
+                    // });
+                });
+            });
+            
         }
     });
 } 
 
 function funcCampo(a){
-    $('#contentEventi').hide();
-    $('#contentCampo').show();
-    $('#contentCampo').empty();
+    $('#contentCampoDinamic').show();
+    $('#contentCampoDinamic').empty();
+    
     var json = {"descCampo":a};
+    
     $.getJSON('scriptPHP/getDescCampi.php',json,function(response) {
         if(response){
-            var table = $('<table id="tbSquadra" class="responsive-table"></table>');
+            var table = $('<table id="tbCampi" class="responsive-table"></table>');
             $.each(response,function(k,v){
                 var row = $('<tr><td class="bordo"><h3>'+v['NomeCampo']+'</h3></td><td class="bordo"> '+v['Via']+'</td></tr><tr><td id="btnGestione" colspan="2"><button id="btnModificaCampo" class="btn btn-primary">Modifica</button></td></tr>');
                 table.append(row);
             });
+            
+            $('#btnModificaCampo').hide();
+            
             $.getJSON('scriptPHP/utentePermisWiew.php',function(response) {
                 if(response){
-                    if(response=='hide' || response=='null'){
-                        $('#btnModificaCampo').hide();
+                    if(response=='show'){
+                        $('#btnModificaCampo').show();
                     }
                 }
             });
-            $('#contentCampo').append(table);
+            $('#contentCampoDinamic').append(table);
+        }
+    });
+}
+
+function funcASG(a){
+    $('#contentASGDinamic').empty();
+    
+    var json = {"id":a};
+    
+    $.getJSON('scriptPHP/getASG.php',json,function(response) {
+        if(response){
+            var table = $('<table id="tbDescASG" class="responsive-table"></table>');
+            $.each(response,function(k,v){
+                var row = $('<tr><td><h3>'+v['Nome']+'</h3></td><td>Marca: '+v['Marca']+'</td><td>Potenza: '+v['Potenza']+'</td></tr><tr><td colspan="3"><img class="responsive-img imgRinchiusa" src="immagini/armi/'+v['Nome']+'.jpg"></td></tr><tr><td colspan="3" class="bordo">'+v['Descrizione']+'</td></tr>');
+                table.append(row);
+            });
+            $('#contentASGDinamic').append(table);
         }
     });
 }
 
 $(document).ready(function(){
+    $('#contentLogin').hide();
+    $('#contentSignin').hide();
+    $('#contentASG').hide();
+    $('#contentCampo').hide();
+    $('#contentDescEventi').hide();
+    $('#contentSquadra').hide();
+    $('#contentUtenti').hide();
+    $('#contentEventi').hide();
     $('#btnLogout').hide();
     $('#tue_asg').hide();
     
+    $('.datepicker').pickadate({
+        selectMonths: true,
+        selectYears: 15
+    });
+    
     $.getJSON('scriptPHP/sessionWiew.php',function(response){
         if(response){
-            if(response=='show'){
+            if(response!="null"){
                 $('#btnLogout').show();
                 $('#tue_asg').show();
             }
@@ -114,6 +246,9 @@ $(document).ready(function(){
     });
     
     $('#home').click(function(){
+        $('#btnInserisciEvento').hide();
+        $('#contentInserimentoEventi').hide();
+        
         $('#contentLogin').hide();
         $('#contentSignin').hide();
         $('#contentASG').hide();
@@ -122,10 +257,11 @@ $(document).ready(function(){
         $('#contentSquadra').hide();
         $('#contentUtenti').hide();
         $('#contentEventi').show();
-        $('#contentEventi').empty();
+        $('#contentEventiDinamic').empty();
+        $('#contentEventiDinamic').show();
+        
         $.getJSON('scriptPHP/getEventi.php',function(response) {
             if(response){
-                var div = $('<div class="center"></br><button id="btnInserisciEvento" class="btn btn-primary">INSERISCI EVENTO</button></div>')
                 var table = $('<table id="tbEventi" class="responsive-table"></table>');
                 $.each(response,function(k,v){
                     var data =  v['Data'];
@@ -134,54 +270,68 @@ $(document).ready(function(){
                     var row = $('<tr><td><h3><a id="descEvento" href="" class="black-text" onclick="funcEvento('+v['id']+');return false;">'+v['Nome']+'</a></h3></td><td> '+newDate+'</td></tr><tr><td colspan="2"><h5><a id="descEvento" href="" class="black-text" onclick="funcCampo('+v['idCampo']+');return false;">'+v['NomeCampo']+'</a></h5></td></tr><tr><td colspan="2" class="bordo">'+v['Descrizione']+'</td></tr>');
                     table.append(row);
                 });
-                div.append(table);
-                $('#contentEventi').append(div);
+                $('#contentEventiDinamic').append(table);
                 
                 $.getJSON('scriptPHP/eventoPermisWiew.php',function(response) {
                     if(response){
-                        if(response=='hide'){
-                            $('#btnInserisciEvento').hide();
+                        if(response=='show'){
+                            $('#btnInserisciEvento').show();
                         }
                     }
                 });
                 
                 $('#btnInserisciEvento').click(function() {
-                    $('#contentEventi').empty();
-                    var text = $('<div align="center" id="inserisciEventoDiv">Nome<input type="text" id="nomeEvento" value=""></br>Data<input id="dataEvento" type="date" class="datepicker"></br>Campo</div>');
+                    $('#contentEventiDinamic').hide();
+                    $('#btnInserisciEvento').hide();
+                    $('#contentInserimentoEventi').show();
+                    $('#selectCampoEvento').show();
                     
-                    $('#contentEventi').append(text);
+                    document.getElementById("dataInserimentoEvento").value = "";
+                    document.getElementById("nomeEvento").value = "";
+                    document.getElementById("descrizioneEvento").value = "";
+                    $('#selectCampoEvento').empty();
+                    
                     $.getJSON('scriptPHP/getCampi.php',function(response) {
                         if(response){
-                            var select = $('<select id="campoEvento"></select>');
                             $.each(response,function(k,v){
                                 var row = $('<option value="'+v['idCampo']+'">'+v['NomeCampo']+'</option>');
-                                select.append(row);
+                                $('#selectCampoEvento').append(row);
                             });
-                            $('#inserisciEventoDiv').append(select);
                         }
                     });
-                    var desc = $('</br>Descrizione<textarea id="descrizioneEvento" class="materialize-textarea"></textarea></br><button type="button" class="btn btn-primary navbar-btn" id="inserisciEvento">INSERISCI</button></br>');
-                    $('#inserisciEventoDiv').append(desc);
-                    $('.datepicker').pickadate({
-                        selectMonths: true,
-                        selectYears: 15
-                    });
+                    
+                    var button = $('<button type="button" class="btn btn-primary navbar-btn" id="inserisciEvento">INSERISCI</button>')
+                    $('#btnEventoInserisciModifica').empty();
+                    $('#btnEventoInserisciModifica').append(button);
                     
                     $('#inserisciEvento').click(function() {
-                        var dataA =  $('#dataEvento').val();
-                        var dateAr = dataA.split('/');
-                        var newDate = dateAr[2] + '-' + dateAr[1] + '-' + dateAr[0];
-                        var nome = $('#nomeEvento').val();
-                        var descrizione = $('#descrizioneEvento').val();
-                        var json = {"id":a,"nome":nome, "descrizione":descrizione, "data":newDate};
-                        $.getJSON('scriptPHP/signup.php',json,function(response){
+                        var data =  $('#dataInserimentoEvento').val();
+                        var dateAr = data.split(' ');
+                        
+                        var json = {"mese":dateAr[1]};
+                        $.getJSON('scriptPHP/monthConverter.php',json,function(response){
                             if(response){
-                                alert(response);
-                                $('#contentSignin').hide();
-                                $('#btnLogout').show();
-                                $('#tue_asg').show();
+                                var mese = response;
+                                var data =  $('#dataInserimentoEvento').val();
+                                var dateAr = data.split(' ');
+                                dateAr[1]= mese;
+                                
+                                var newDate = dateAr[2] + '-' + dateAr[1] + '-' + dateAr[0];
+                                
+                                var nome = $('#nomeEvento').val();
+                                var descrizione = $('#descrizioneEvento').val();
+                                var campo = $('#selectCampoEvento').val();
+                                
+                                var json = {"nome":nome, "descrizione":descrizione, "data":newDate, "campo":campo};
+                        
+                                $.getJSON('scriptPHP/insertEvento.php',json,function(response){
+                                    if(response){
+                                        alert(response);
+                                        $('#contentInserimentoEventi').hide();
+                                    }
+                                });
                             }
-                        });
+                        }); 
                     });
                 });
             }
@@ -196,8 +346,11 @@ $(document).ready(function(){
         $('#contentUtenti').hide();
         $('#contentEventi').hide();
         $('#contentDescEventi').hide();
+        $('#contentUpdateUtente').hide();
         $('#contentSquadra').show();
-        $('#contentSquadra').empty();
+        $('#contentSquadraDinamic').empty();
+        $('#contentSquadraDinamic').show();
+        
         $.getJSON('scriptPHP/getUtenti.php',function(response) {
             if(response){
                 var table = $('<table id="tbSquadra" class="responsive-table"></table>');
@@ -205,7 +358,7 @@ $(document).ready(function(){
                     var row = $('<tr><td><a id="descUtente" href="" class="black-text" value="'+v['id']+'" onclick="funcUtente('+v['id']+');return false;"><h3>'+v['Nickname']+'</h3></a></td><td> '+v['Ruolo']+'</td><td> '+v['Stato']+'</td></tr><tr><td colspan="3" class="bordo">'+v['Descrizione']+'</td></tr>');
                     table.append(row);
                 });
-                $('#contentSquadra').append(table);
+                $('#contentSquadraDinamic').append(table);
             }
         });
     });
@@ -219,15 +372,46 @@ $(document).ready(function(){
         $('#contentEventi').hide();
         $('#contentDescEventi').hide();
         $('#contentCampo').show();
-        $('#contentCampo').empty();
+        $('#contentCampoDinamic').show();
+        $('#contentCampoDinamic').empty();
         $.getJSON('scriptPHP/getCampi.php',function(response) {
             if(response){
-                var table = $('<table id="tbSquadra" class="responsive-table"></table>');
+                var table = $('<table id="tbCampi" class="responsive-table"></table>');
                 $.each(response,function(k,v){
                     var row = $('<tr><td class="bordo"><h3><a id="descCampo" href="" class="black-text" onclick="funcCampo('+v['idCampo']+');return false;">'+v['NomeCampo']+'</a></h3></td><td class="bordo"> '+v['Via']+'</td></tr>');
                     table.append(row);
                 });
-                $('#contentCampo').append(table);
+                $('#contentCampoDinamic').append(table);
+            }
+        });
+    });
+    
+    $('#tue_asg').click(function() {
+        $('#contentLogin').hide();
+        $('#contentSignin').hide();
+        $('#contentCampo').hide();
+        $('#contentSquadra').hide();
+        $('#contentDescEventi').hide();
+        $('#contentUtenti').hide();
+        $('#contentEventi').hide();
+        $('#contentInserimentoASG').hide();
+        $('#contentASG').show();
+        $('#contentASGDinamic').show();
+        $('#contentASGDinamic').empty();
+        
+        $.getJSON('scriptPHP/sessionWiew.php',function(response) {
+            if (response) {
+                var json = {"id":response};
+                $.getJSON('scriptPHP/getASG.php',json,function(response) {
+                    if(response){
+                        var table = $('<table id="tbASG" class="responsive-table"></table>');
+                        $.each(response,function(k,v){
+                            var row = $('<tr><td><h3><a id="descASG" href="" class="black-text" onclick="funcASG('+v['idASG']+');return false;">'+v['Nome']+'</a></h3></td><td> '+v['Marca']+'</td><td> '+v['Potenza']+'</td></tr><tr><td colspan="3" class="bordo">'+v['Descrizione']+'</td></tr>');
+                            table.append(row);
+                        });
+                        $('#contentASGDinamic').append(table);
+                    }
+                });
             }
         });
     });
@@ -241,9 +425,7 @@ $(document).ready(function(){
         $('#contentDescEventi').hide();
         $('#contentUtenti').hide();
         $('#contentEventi').hide();
-        $('#contentLogin').empty();
-        var text = $('<div align="center">Nickname<input type="text" id="nickSI" value=""></br>Password<input type="password" id="passSI" value=""></br><button type="button" class="btn btn-primary navbar-btn" id="inviaLogin">INVIA</button></br></div>');
-        $('#contentLogin').append(text);
+        
         $('#inviaLogin').click(function() {
             var nick = $('#nickSI').val();
             var pass = $('#passSI').val();
@@ -254,6 +436,9 @@ $(document).ready(function(){
                     $('#contentLogin').hide();
                     $('#btnLogout').show();
                     $('#tue_asg').show();
+                    
+                    document.getElementById("nickSI").value = "";
+                    document.getElementById("passSI").value = "";
                 }
             });
         });
@@ -278,9 +463,7 @@ $(document).ready(function(){
         $('#contentSquadra').hide();
         $('#contentUtenti').hide();
         $('#contentSignin').show();
-        $('#contentSignin').empty();
-        var text = $('<div align="center">Nome<input type="text" id="nomeSU" value=""></br>Cognome<input type="text" id="cognomeSU" value=""></br>Nickname<input type="text" id="nickSU" value=""></br>E-Mail<input type="text" id="emailSU" value=""></br>Password<input type="password" id="passSU" value=""></br><button type="button" class="btn btn-primary navbar-btn" id="inviaSignin">INVIA</button></br></div>');
-        $('#contentSignin').append(text);
+        
         $('#inviaSignin').click(function() {
             var nick = $('#nickSU').val();
             var pass = $('#passSU').val();
@@ -290,10 +473,22 @@ $(document).ready(function(){
             var json = {"nick":nick, "pass":pass, "nome":nome, "cognome":cognome, "email":email};
             $.getJSON('scriptPHP/signup.php',json,function(response){
                 if(response){
-                    alert(response);
+                    
+                    var json = {"nick":response};
+                    $.getJSON('scriptPHP/setSession.php',json,function(response){
+                        if(response){
+                            alert(response);
+                        }
+                    });
+                    
                     $('#contentSignin').hide();
                     $('#btnLogout').show();
                     $('#tue_asg').show();
+                    document.getElementById("nickSU").value = "";
+                    document.getElementById("passSU").value = "";
+                    document.getElementById("emailSU").value = "";
+                    document.getElementById("nomeSU").value = "";
+                    document.getElementById("cognomeSU").value = "";
                 }
             });
         });

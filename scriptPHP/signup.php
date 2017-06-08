@@ -14,8 +14,7 @@
 		$stm->bindValue(':cognome',$_GET['cognome']);
 		$stm->bindValue(':email',$_GET['email']);
 		if($stm->execute() == true){
-			$_SESSION['esiste']=1;
-			echo json_encode('Registrato.');
+			echo json_encode($_GET['nick']);
 		}
 		else{
 			echo json_encode('Username non valido.');

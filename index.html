@@ -13,52 +13,135 @@
 	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
 	</head>
 	<header>
-		<img src="immagini/copertina.jpg" class="stretchImg">
+		<img src="immagini/varie/copertina.jpg" class="stretchImg">
 	</header>
-	<body id="principale">
-			<nav>
-				<div class="nav-wrapper #c62828 red darken-3" >
-					<ul class="left">
-						<li><a id="home" class="#ffffff white red-text">HOME</a></li>
-						<li><a id="squadra" class="#ffffff white red-text">SQUADRA</a></li>
-						<li><a id="campi" class="#ffffff white red-text">I NOSTRI CAMPI</a></li>
-						<li><a id="tue_asg" class="#ffffff white red-text">ARMI</a></li>
-					</ul>
-					<label class="brand-logo center"><h4>Lupi di Toscana</h4></label>
-					<ul class="right">
-						<li><a id="btnSignin" class="#ffffff white red-text">SIGNUP</a></li>
-						<li><a id="btnLogin" class="#ffffff white red-text">LOGIN</a></li>
-						<li><a id="btnLogout" class="#f44336 red">LOGOUT</a></li>
-					</ul>
-				</div>
-			</nav>
-			<div class="container row #ffffff white">
-				<div id="contentLogin" class="col s8 offset-s2">
+	<main>
+		<body id="principale">
+				<nav>
+					<div class="nav-wrapper #c62828 red darken-3" >
+						<ul class="left">
+							<li><a id="home" class="#ffffff white red-text">HOME</a></li>
+							<li><a id="squadra" class="#ffffff white red-text">SQUADRA</a></li>
+							<li><a id="campi" class="#ffffff white red-text">I NOSTRI CAMPI</a></li>
+							<li><a id="tue_asg" class="#ffffff white red-text">ARMI</a></li>
+						</ul>
+						<label class="brand-logo center"><h4>Lupi di Toscana</h4></label>
+						<ul class="right">
+							<li><a id="btnSignin" class="#ffffff white red-text">SIGNUP</a></li>
+							<li><a id="btnLogin" class="#ffffff white red-text">LOGIN</a></li>
+							<li><a id="btnLogout" class="#f44336 red">LOGOUT</a></li>
+						</ul>
+					</div>
+				</nav>
+				<div class="container row #ffffff white">
+					<div id="contentLogin" align="center" class="col s8 offset-s2">
+						Nickname<input type="text" id="nickSI" value=""></br>
+						Password<input type="password" id="passSI" value=""></br>
+						<button type="button" class="btn btn-primary navbar-btn" id="inviaLogin">LOGIN</button></br>
+					</div>
 					
-				</div>
-				<div id="contentSignin" class="col s8 offset-s2">
+					<div id="contentSignin" align="center" class="col s8 offset-s2">
+						Nome<input type="text" id="nomeSU" value=""></br>
+						Cognome<input type="text" id="cognomeSU" value=""></br>
+						Nickname<input type="text" id="nickSU" value=""></br>
+						E-Mail<input type="text" id="emailSU" value=""></br>
+						Password<input type="password" id="passSU" value=""></br>
+						<button type="button" class="btn btn-primary navbar-btn" id="inviaSignin">SIGNUP</button></br>
+					</div>
 					
-				</div>
-				<div id="contentEventi" class="col s8 offset-s2">
-					<div id="contentSelect">
+					<div id="contentEventi" align="center" class="col s8 offset-s2 input-field">
+						</br><button id="btnInserisciEvento" class="btn btn-primary">INSERISCI EVENTO</button>
+						<div id="contentEventiDinamic" align="center" class="col s8 offset-s2 input-field">
+							
+						</div>
+						<div id="contentInserimentoEventi" align="center" class="col s8 offset-s2 input-field">
+							Nome<input type="text" id="nomeEvento" value=""></br>
+							Data<input id="dataInserimentoEvento" type="date" class="datepicker"></br>
+							Campo<select id="selectCampoEvento">
+								
+							</select></br>
+							Descrizione<textarea id="descrizioneEvento" class="materialize-textarea">
+								
+							</textarea></br>
+							<div id="btnEventoInserisciModifica">
+								
+							</div></br>
+						</div>
+					</div>
+					
+					<div id="contentASG" align="center" class="col s8 offset-s2">
+						</br><button id="btnInserisciASG" class="btn btn-primary">INSERISCI ARMA</button>
+						<div id="contentASGDinamic" align="center">
+							
+						</div>
+						<div id="contentInserimentoASG" align="center">
+							Nome<input type="text" id="nomeEvento" value=""></br>
+							Marca<input type="text" id="nomeEvento" value=""></br>
+							Potenza<input type="text" id="nomeEvento" value=""></br>
+							Descrizione<textarea id="descrizioneEvento" class="materialize-textarea">
+								
+							</textarea></br>
+							<div id="contentUpgradeASGInsert">
+								Nome accessorio<input type="text" id="nomeEvento" value=""></br>
+								Marca<input type="text" id="nomeEvento" value=""></br>
+								<select id="selectTipoUpgrade" class="selectInitASG">
+											
+								</select>
+							</div></br>
+						</div>
+					</div>
+					
+					<div id="contentCampo" align="center" class="col s8 offset-s2">
+						<div id="contentCampoDinamic" align="center">
 						
+						</div>
+						<div id="contentUpdateCampo" align="center">
+						
+						</div>
+					</div>
+					
+					<div id="contentSquadra" align="center" class="col s8 offset-s2 input-field">
+						<div id="contentSquadraDinamic" align="center">
+							
+						</div>
+						<div id="contentUpdateUtente" align="center">
+							<table id="tbUpdateSquadra" class="responsive-table">
+								<tr>
+									<td id="nickUtenteSelezionato" align="center" colspan="2">
+										
+									</td>
+								</tr>
+								<tr>
+									<td id="colonnaSelectRuoli">
+										<select id="selectRuoliUtente" class="selectInit noDelete">
+											
+										</select>
+									</td>
+									<td id="colonnaSelectPermessi">
+										<select id="selectPermessiUtente" class="selectInit noDelete">
+											
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2" class="bordo">
+										<textarea id="descrizioneUtenteUpdate" class="materialize-textarea">
+										
+										</textarea>
+									</td>
+								</tr>
+							</table>
+							<button id="btnModificaPermessiUtente" class="btn btn-primary">Modifica</button>
+						</div>
 					</div>
 				</div>
-				<div id="contentASG" class="col s8 offset-s2">
-					
-				</div>
-				<div id="contentCampo" class="col s8 offset-s2">
-					
-				</div>
-				<div id="contentSquadra" class="col s8 offset-s2">
-					
-				</div>
-			</div>
-			<div id="faqs">
-				</br>
-			</div>
-		<script src="scriptJS/jquery.js"></script>
-	</body>
+			
+		</body>
+	</main>
+	<footer class="page-footer">
+		</br>
+	</footer>
+	<script src="scriptJS/jquery.js"></script>
 	<style>
 		.stretchImg{
 			width:100%;
@@ -71,12 +154,17 @@
 			border-bottom-width: 1px;
 		}
 		
+		.imgRinchiusa {
+			display: block;
+			margin: 0 auto;
+		}
+		
 		#faqs{
 			background-color: #616161;
 		}
 		
 		#principale{
-			background-image: url("immagini/roma.jpg");
+			background-image: url("immagini/varie/roma.jpg");
 		}
 		
 		#btnGestione{
