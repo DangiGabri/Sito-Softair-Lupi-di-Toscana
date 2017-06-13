@@ -6,7 +6,7 @@
     try{
     	
 		$dbh = new PDO('mysql:host='.$host.';dbname='.$dbNome,$username,$password);
-		$stm = $dbh->prepare('SELECT * FROM SitoSoftairLupiDiToscana.Campo c');
+		$stm = $dbh->prepare('SELECT * FROM SitoSoftairLupiDiToscana.ASG a WHERE a.idProprietario=2');
 		if($stm->execute() == true){
 			echo json_encode($stm->fetchAll());
 		}

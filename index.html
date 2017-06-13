@@ -13,139 +13,293 @@
 	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
 	</head>
 	<header>
-		<img src="immagini/varie/copertina.jpg" class="stretchImg">
+		<img src="immagini/varie/CopertinaSito.png" class="stretchImg">
 	</header>
 	<main>
 		<body id="principale">
-				<nav>
-					<div class="nav-wrapper #c62828 red darken-3" >
-						<ul class="left">
-							<li><a id="home" class="#ffffff white red-text">HOME</a></li>
-							<li><a id="squadra" class="#ffffff white red-text">SQUADRA</a></li>
-							<li><a id="campi" class="#ffffff white red-text">I NOSTRI CAMPI</a></li>
-							<li><a id="tue_asg" class="#ffffff white red-text">ARMI</a></li>
-						</ul>
-						<label class="brand-logo center"><h4>Lupi di Toscana</h4></label>
-						<ul class="right">
-							<li><a id="btnSignin" class="#ffffff white red-text">SIGNUP</a></li>
-							<li><a id="btnLogin" class="#ffffff white red-text">LOGIN</a></li>
-							<li><a id="btnLogout" class="#f44336 red">LOGOUT</a></li>
-						</ul>
+			<ul id="dropdown1" class="dropdown-content">
+			  <li><a id="campi" class="#ffffff white red-text">I NOSTRI CAMPI</a></li>
+			  <li><a id="storia" class="#ffffff white red-text">STORIA</a></li>
+			</ul>
+			<nav>
+				<div class="nav-wrapper white" >
+					<ul class="left">
+						<li><a id="home" class="#ffffff white red-text">HOME</a></li>
+						<li><a id="eventi" class="#ffffff white red-text">EVENTI</a></li>
+						<li><a id="squadra" class="#ffffff white red-text">SQUADRA</a></li>
+						<li><a id="tue_asg" class="#ffffff white red-text">ARMI</a></li>
+						<li><a class="dropdown-button white red-text" data-activates="dropdown1">ALTRO</a></li>
+					</ul>
+					<label class="brand-logo center red-text"><h4>Lupi di Toscana</h4></label>
+					<ul class="right">
+						<li><a id="btnSignin" class="#ffffff white red-text">SIGNUP</a></li>
+						<li><a id="btnLogin" class="#ffffff white red-text">LOGIN</a></li>
+						<li><a id="btnLogout" class="#f44336 red">LOGOUT</a></li>
+					</ul>
+				</div>
+			</nav>
+			</br>
+			<div class="container row #ffffff white">
+				<div id="contentBenvenuto" align="center" class="col s8 offset-s2">
+					<div id="contentNonLoggato" align="center">
+						<h3>Benvenuto!!</h3></br>
+						<h4>Questa è la pagina di</br>Softair <span class="#eceff1 blue-grey"><span class="red-text text-darken-3">Lupi</span> <span class="white-text">di</span> <span class="red-text text-darken-3">Toscana</span></span>!</h4></br>
+						<h5><b>Fai già parte di noi?</b></br></br>Se sì, allora effettua subito il <a href="" class="black-text" onclick="funcLogin();return false;">LOGIN</a> per poter partecipare agli eventi.</br></br>Altrimenti, se vuoi prendere parte alle nostre giocate, <a href="" class="black-text" onclick="funcSignup();return false;">REGISTRATI</a>.</h5>
 					</div>
-				</nav>
-				<div class="container row #ffffff white">
-					<div id="contentLogin" align="center" class="col s8 offset-s2">
-						Nickname<input type="text" id="nickSI" value=""></br>
-						Password<input type="password" id="passSI" value=""></br>
-						<button type="button" class="btn btn-primary navbar-btn" id="inviaLogin">LOGIN</button></br>
-					</div>
-					
-					<div id="contentSignin" align="center" class="col s8 offset-s2">
-						Nome<input type="text" id="nomeSU" value=""></br>
-						Cognome<input type="text" id="cognomeSU" value=""></br>
-						Nickname<input type="text" id="nickSU" value=""></br>
-						E-Mail<input type="text" id="emailSU" value=""></br>
-						Password<input type="password" id="passSU" value=""></br>
-						<button type="button" class="btn btn-primary navbar-btn" id="inviaSignin">SIGNUP</button></br>
-					</div>
-					
-					<div id="contentEventi" align="center" class="col s8 offset-s2 input-field">
-						</br><button id="btnInserisciEvento" class="btn btn-primary">INSERISCI EVENTO</button>
-						<div id="contentEventiDinamic" align="center" class="col s8 offset-s2 input-field">
-							
-						</div>
-						<div id="contentInserimentoEventi" align="center" class="col s8 offset-s2 input-field">
-							Nome<input type="text" id="nomeEvento" value=""></br>
-							Data<input id="dataInserimentoEvento" type="date" class="datepicker"></br>
-							Campo<select id="selectCampoEvento">
-								
-							</select></br>
-							Descrizione<textarea id="descrizioneEvento" class="materialize-textarea">
-								
-							</textarea></br>
-							<div id="btnEventoInserisciModifica">
-								
-							</div></br>
-						</div>
-					</div>
-					
-					<div id="contentASG" align="center" class="col s8 offset-s2">
-						</br><button id="btnInserisciASG" class="btn btn-primary">INSERISCI ARMA</button>
-						<div id="contentASGDinamic" align="center">
-							
-						</div>
-						<div id="contentInserimentoASG" align="center">
-							Nome<input type="text" id="nomeEvento" value=""></br>
-							Marca<input type="text" id="nomeEvento" value=""></br>
-							Potenza<input type="text" id="nomeEvento" value=""></br>
-							Descrizione<textarea id="descrizioneEvento" class="materialize-textarea">
-								
-							</textarea></br>
-							<div id="contentUpgradeASGInsert">
-								Nome accessorio<input type="text" id="nomeEvento" value=""></br>
-								Marca<input type="text" id="nomeEvento" value=""></br>
-								<select id="selectTipoUpgrade" class="selectInitASG">
-											
-								</select>
-							</div></br>
-						</div>
-					</div>
-					
-					<div id="contentCampo" align="center" class="col s8 offset-s2">
-						<div id="contentCampoDinamic" align="center">
+					<div id="contentLoggato" align="center">
 						
-						</div>
-						<div id="contentUpdateCampo" align="center">
-						
-						</div>
 					</div>
-					
-					<div id="contentSquadra" align="center" class="col s8 offset-s2 input-field">
-						<div id="contentSquadraDinamic" align="center">
-							
-						</div>
-						<div id="contentUpdateUtente" align="center">
-							<table id="tbUpdateSquadra" class="responsive-table">
-								<tr>
-									<td id="nickUtenteSelezionato" align="center" colspan="2">
-										
-									</td>
-								</tr>
-								<tr>
-									<td id="colonnaSelectRuoli">
-										<select id="selectRuoliUtente" class="selectInit noDelete">
-											
-										</select>
-									</td>
-									<td id="colonnaSelectPermessi">
-										<select id="selectPermessiUtente" class="selectInit noDelete">
-											
-										</select>
-									</td>
-								</tr>
-								<tr>
-									<td colspan="2" class="bordo">
-										<textarea id="descrizioneUtenteUpdate" class="materialize-textarea">
-										
-										</textarea>
-									</td>
-								</tr>
-							</table>
-							<button id="btnModificaPermessiUtente" class="btn btn-primary">Modifica</button>
-						</div>
+					<div id="contentNonLoggatoSuccessiva" align="center">
+						<table>
+							<tr>
+								<td><div align="center"><h3>La nostra storia</h3></div></td>
+							</tr>
+							<tr>
+								<td><img src="immagini/varie/storia.jpg" class="responsive-img imgRinchiusa"></td>
+							</tr>
+							<tr>
+								<td><div align="center"><h4>Gli inizi.</h4></div></td>
+							</tr>
+							<tr>
+								<td>
+									<div align="center">
+										<p>
+											Nel piccolo paesino di Tavarnelle un gruppo di amici, fogati per Salvate il soldato Ryan, 
+											quasi tutte le mattine a scuola, e molte volte anche il pomeriggio, si ritrovano per "ammazzare" 
+											un po' di Tedeschi. Un giorno Sombrero e Shermangab , nel cortile posteriore della casa del primo, pensano: 
+											"Ma perché invece di sparare ai Tedeschi (invisibili) non andiamo nel bosco e ci spariamo a vicenda?"</br>
+											Era il lontano Settembre del 2009, qualche giorno prima di iniziare l'avventura delle scuole medie, tutti insieme, 
+											come lo eravamo fin dalla prima elementare.
+										</p>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td><div align="center"><h4>La prima volta non si scorda mai!</h4></div></td>
+							</tr>
+							<tr>
+								<td>
+									<div align="center">
+										<p>
+											L'idea era piaciuta a tutti fin dall'inizio (finalmente vedevamo quelli a cui sparavamo!!), 
+											e ci siamo organizzati per una domenica pomeriggio, subito dopo pranzo, nel bosco vicino casa nostra.
+											Dovevamo essere sei: Niccolò (Punisher), Pietro (che sfortunatamente ha smesso di venire), Filippo (Blackout), 
+											Gabriele (Shermangab), Thomas (Sombrero) e Massimo (2000; il babbo di Sombrero e fornitore ufficiale di qualsiasi cosa). 
+											Così era deciso il giorno prima, ma di fatto chi per  parenti, chi per pranzi interminabili, Filippo e Niccolò non 
+											sono venuti. Eravamo rimasti in quattro... ma non ce ne importava assolutamente niente! Carichi di 
+											fucili e pistole cinesi (magari vinte ai Luna park), e soprattutto di grande entusiasmo abbiamo giocato, 
+											due contro due, sfide all'ultimo sangue, anzi, all'ultimo pallino. Chi aveva solo il fucile, chi invece 
+											usava due pistole... e non sapeva come ricaricare!! Un divertimento sfrenato, interrotto solo 
+											quando l'equipaggiamento scarseggiava. Di fatto dei sei fucili arrivati, solo UNO è tornato incolume.
+										</p>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td><div align="center"><h4>Siamo i LUPI!</h4></div></td>
+							</tr>
+							<tr>
+								<td>
+									<div align="center">
+										<p>
+											Da quel momento, quando potevamo, tornavamo nel bosco a spararci. I nostri desideri erano di avere più 
+											equipaggiamento, e soprattutto migliore. Scoprimmo che il gioco a cui giocavamo si chiamava Soft-air, 
+											aria compressa in Italiano, e con l'aumentare di numero ed il migliorare di tecniche e fucili, naque anche l'esigenza 
+											di avere un nome e un simbolo in cui riconoscersi. Dopo alcune discussioni la maggioranza optò per "Lupi di Toscana", 
+											in onore al servizio reso da 2000 in questo corpo e... dal fatto che nessuno aveva un'idea migliore. 
+											Studiammo il nuovo stemma (anche qui una grande fantasia) che prevedeva i colori sociali dei lupi.
+										</p>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td><div align="center"><h4>I Lupi come sono oggi.</h4></div></td>
+							</tr>
+							<tr>
+								<td>
+									<div align="center">
+										<p>
+											Da quel Settembre 2009 sono stati tanti i "lupi" che sono arrivati, e tanti quelli che se ne sono andati, 
+											ma lo zoccolo duro è sempre quello. Tre dei quattro che quella prima volta c'erano, ci sono ancora. 
+											Ma anche i due assenti di quel giorno, ma presenti tutte le altre volte, fanno ancora parte di questo gruppo. 
+											E la parte più importante è che l'entusiasmo e la passione di quella prima volta non è diminuita, anzi, è 
+											probabilmente aumentata, producendosi in numerose opere.
+										</p>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td><div align="center"><h4>Saltar fuori all'improvviso, come un lupo dalla tana...</h4></div></td>
+							</tr>
+							<tr>
+								<td><div align="center"><h3>FUCILIERE DI TOSCANA!!</h3></div></td>
+							</tr>
+							<tr>
+								<td></td>
+							</tr>
+						</table>
 					</div>
 				</div>
+				<div id="contentLogin" align="center" class="col s8 offset-s2">
+					Nickname<input type="text" id="nickSI" value=""></br>
+					Password<input type="password" id="passSI" value=""></br>
+					<button type="button" class="btn btn-primary navbar-btn" id="inviaLogin">LOGIN</button></br>
+				</div>
+				
+				<div id="contentSignin" align="center" class="col s8 offset-s2">
+					Nome<input type="text" id="nomeSU" value=""></br>
+					Cognome<input type="text" id="cognomeSU" value=""></br>
+					Nickname<input type="text" id="nickSU" value=""></br>
+					E-Mail<input type="text" id="emailSU" value=""></br>
+					Password<input type="password" id="passSU" value=""></br>
+					<button type="button" class="btn btn-primary navbar-btn" id="inviaSignin">SIGNUP</button></br>
+				</div>
+				
+				<div id="contentEventi" align="center" class="col s8 offset-s2 input-field">
+					</br><button id="btnInserisciEvento" class="btn btn-primary">INSERISCI EVENTO</button>
+					<div id="contentEventiDinamic" align="center" class="col s8 offset-s2 input-field">
+						
+					</div>
+					<div id="contentInserimentoEventi" align="center" class="col s8 offset-s2 input-field">
+						Nome<input type="text" id="nomeEvento" value=""></br>
+						Data<input id="dataInserimentoEvento" type="date" class="datepicker"></br>
+						Campo<select id="selectCampoEvento">
+							
+						</select></br>
+						Descrizione<textarea id="descrizioneEvento" class="materialize-textarea">
+							
+						</textarea></br>
+						<div id="btnEventoInserisciModifica">
+							
+						</div></br>
+					</div>
+				</div>
+				
+				<div id="contentASG" align="center" class="col s8 offset-s2">
+					</br><button id="btnInserisciASG" class="btn btn-primary">INSERISCI ARMA</button>
+					<div id="contentASGDinamic" align="center">
+						
+					</div>
+					<div id="contentInserimentoASG" align="center">
+						Nome<input type="text" id="nomeASG" value=""></br>
+						Marca<input type="text" id="marcaASG" value=""></br>
+						Potenza<input type="text" id="potenzaASG" value=""></br>
+						Descrizione<textarea id="descrizioneASG" class="materialize-textarea">
+							
+						</textarea></br>
+						</br><button id="btnInsertASG" class="btn btn-primary">INSERISCI ARMA</button>
+					</div>
+					<div id="contentPartecipaASG" class="input-field" align="center">
+						<h3>Possiedi un'ASG(Air Soft Gun)?</h3></br>
+						<h4>Se sì presentati al campo da gioco munito di tale arma!</h4></br>
+						<h4>Se non ne possiedi puoi noleggiarne una da noi! Decidi te la configurazione!</h4></br>
+						<button id="btnNoleggiaASG" class="btn btn-primary">NOLEGGIA ARMA</button>
+					</div>
+					<div id="contentNoleggiaASG" class="input-field" align="center">
+						<table>
+							<tr>
+								<td><h3>Noleggio ASG</h3></td>
+							</tr>
+							<tr>
+								<td id="tdNomeASGNoleggio">
+									
+								</td>
+							</tr>
+							<tr>
+								<td id="imgNoleggioASG">
+									
+								</td>
+							</tr>
+							<tr>
+								<td id="tdSelectCalcioAnterioreASG">
+									
+								</td>
+								<td id="tdSelectMirinoASG">
+									
+								</td>
+								<td id="tdSelectCaricatoreASG">
+									
+								</td>
+							</tr>
+							<tr>
+								<td><button id="btnPrenotaASG" class="btn btn-primary">PRENOTA ARMA</button></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				
+				<div id="contentCampo" align="center" class="col s8 offset-s2">
+					<div id="contentCampoDinamic" align="center">
+					
+					</div>
+					<div id="contentUpdateCampo" align="center">
+					
+					</div>
+				</div>
+				
+				<div id="contentSquadra" align="center" class="col s8 offset-s2 input-field">
+					<div id="contentSquadraDinamic" align="center">
+						
+					</div>
+					<div id="contentUpdateUtente" align="center">
+						<table id="tbUpdateSquadra" class="responsive-table">
+							<tr>
+								<td id="nickUtenteSelezionato" align="center" colspan="2">
+									
+								</td>
+							</tr>
+							<tr>
+								<td id="colonnaSelectRuoli">
+									
+								</td>
+								<td id="colonnaSelectPermessi">
+									
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2" class="bordo">
+									<textarea id="descrizioneUtenteUpdate" class="materialize-textarea">
+									
+									</textarea>
+								</td>
+							</tr>
+						</table>
+						<button id="btnModificaPermessiUtente" class="btn btn-primary">Modifica</button>
+					</div>
+				</div>
+			</div>
 			
 		</body>
 	</main>
 	<footer class="page-footer">
-		</br>
+		<div class="row">
+			<div class="col s8 offset-s2" valign="middle">
+				<table>
+					<tr>
+						<td>
+							<i>Seguici anche su:</i>
+						</td>
+						<td>
+							<a href="https://www.facebook.com/SoftAirLupiDiToscana/"><img src="immagini/varie/Facebook.png" class="icons">Facebook</a>
+						</td>
+						<td>
+							<a href="https://www.youtube.com/channel/UC90jIZvP2vQe2cnzr4EyVqQ"><img src="immagini/varie/YouTube.png" class="icons">You Tube</a>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
 	</footer>
 	<script src="scriptJS/jquery.js"></script>
 	<style>
 		.stretchImg{
 			width:100%;
 			height:300px;
+		}
+		
+		.icons{
+			width:30px;
+			height:30px;
 		}
 		
 		.bordo{
