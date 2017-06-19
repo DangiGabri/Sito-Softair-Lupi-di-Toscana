@@ -34,7 +34,7 @@ function funcEvento(a){
                 }
             });
             
-            $('#btnModificaEvento').click(function() {
+            $('#btnModificaEvento').unbind().click(function() {
                 $('#btnInserisciEvento').hide();
                 $('#contentInserimentoEventi').show();
                 $('#selectCampoEvento').show();
@@ -77,6 +77,11 @@ function funcEvento(a){
                                 if(response){
                                     alert(response);
                                     $('#contentInserimentoEventi').hide();
+                                    $('#contentBenvenuto').show();
+        
+                                    $('#contentNonLoggato').hide();
+                                    $('#contentLoggato').hide();
+                                    $('#contentNonLoggatoSuccessiva').show();
                                 }
                             });
                         }
@@ -84,7 +89,7 @@ function funcEvento(a){
                 });
             });
             
-            $('#btnPartecipa').click(function(){
+            $('#btnPartecipa').unbind().click(function(){
                 $.getJSON('scriptPHP/sessionWiew.php',function(response){
                     if(response){
                         var json = {"idEvento":a, "idUtente":response};
@@ -116,7 +121,7 @@ function funcEvento(a){
                                             if(response){
                                                 var table = $('<table id="tbASG" class="responsive-table"></table>');
                                                 $.each(response,function(k,v){
-                                                    var row = $('<tr><td><h3><a id="descASG" href="" class="black-text" onclick="funcNoleggia('+v['idASG']+');return false;">'+v['Nome']+'</a></h3></td><td> '+v['Marca']+'</td><td> '+v['Potenza']+'</td></tr><tr><td colspan="3" class="bordo">'+v['Descrizione']+'</td></tr>');
+                                                    var row = $('<tr><td><h3><a id="descASG" href="" class="black-text" onclick="funcNoleggia('+v['idASG']+',a);return false;">'+v['Nome']+'</a></h3></td><td> '+v['Marca']+'</td><td> '+v['Potenza']+'</td></tr><tr><td colspan="3" class="bordo">'+v['Descrizione']+'</td></tr>');
                                                     table.append(row);
                                                 });
                                                 $('#contentASGDinamic').append(table);
@@ -137,7 +142,17 @@ function funcEvento(a){
     });
 }
 
-function funcNoleggia(a){
+function funcEliminaEvento(a){
+    var json = {"id":a};
+    
+    $.getJSON('scriptPHP/deleteEvento.php',json,function(response){
+        if(response){
+            alert(response);
+        }
+    });
+}
+
+function funcNoleggia(a,b){
     $('#contentASGDinamic').hide();
     $('#contentNoleggiaASG').show();
     
@@ -160,7 +175,7 @@ function funcNoleggia(a){
                     if(response){
                         var select = $('<select id="selectMirini" class="selectInitMirini"></select>');
                         $.each(response,function(k,v){
-                            var row = $('<option value="'+v['id']+'" onmouseover="funcPopup(' + v['Descrizione'] + ');" onmouseout="funcPopup(0);">' + v['Nome'] + '</option>');
+                            var row = $('<option value="'+v['id']+'" onchange="funcPopup1(' + v['Descrizione'] + ');" onmouseout="funcPopup(0);">' + v['Nome'] + '</option>');
                             select.append(row);
                         });
                         $('#tdSelectMirinoASG').append(select);
@@ -175,7 +190,7 @@ function funcNoleggia(a){
                     if(response){
                         var select = $('<select id="selectCaricatori" class="selectInitCaricatori"></select>');
                         $.each(response,function(k,v){
-                            var row = $('<option value="'+v['id']+'" onmouseover="funcPopup(' + v['Descrizione'] + ');" onmouseout="funcPopup(0);">' + v['Nome'] + '</option>');
+                            var row = $('<option value="'+v['id']+'" onchange="funcPopup2(' + v['Descrizione'] + ');" onmouseout="funcPopup(0);">' + v['Nome'] + '</option>');
                             select.append(row);
                         });
                         $('#tdSelectCaricatoreASG').append(select);
@@ -191,7 +206,7 @@ function funcNoleggia(a){
                     if(response){
                         var select = $('<select id="selectCalci" class="selectInitCalci"></select>');
                         $.each(response,function(k,v){
-                            var row = $('<option value="'+v['id']+'" onmouseover="funcPopup(' + v['Descrizione'] + ');" onmouseout="funcPopup(0);">' + v['Nome'] + '</option>');
+                            var row = $('<option value="'+v['id']+'" onchange="funcPopup3(' + v['Descrizione'] + ');" onmouseout="funcPopup(0);">' + v['Nome'] + '</option>');
                             select.append(row);
                         });
                         $('#tdSelectCalcioAnterioreASG').append(select);
@@ -202,13 +217,47 @@ function funcNoleggia(a){
                         });
                     }
                 });
+                
+                $('#btnPrenotaASG').unbind().click(function(){
+                    $.getJSON('scriptPHP/sessionWiew.php',function(response){
+                        if(response){
+                            var caric = $('#selectCaricatori').val();
+                            var mirino = $('#selectMirini').val();
+                            var calcio = $('#selectCalci').val();
+                            
+                            var json = {"idUtente":response,"idASG":a,"idEvento":b,"caric":caric,"mirino":mirino,"calcio":calcio};
+                            $.getJSON('scriptPHP/insertNoleggio.php',json,function(response){
+                                if(response){
+                                    alert(response);
+                                    $('#contentASG').hide();
+                                    $('#contentBenvenuto').show();
+        
+                                    $('#contentNonLoggato').hide();
+                                    $('#contentLoggato').hide();
+                                    $('#contentNonLoggatoSuccessiva').show();
+                                }
+                            });
+                        }
+                    });
+                });
             });
         }
     });
 }
 
-function funcPopup(a){
-    alert(a);
+function funcPopup1(a){
+    $('#descrizioneSelectMirinoASG').empty();
+    document.getElementById("descrizioneSelectMirinoASG").innerHTML = a;
+}
+
+function funcPopup2(a){
+    $('#descrizioneSelectCaricatoreASG').empty();
+    document.getElementById("descrizioneSelectCaricatoreASG").innerHTML = a;
+}
+
+function funcPopup3(a){
+    $('#descrizioneSelectCalcioASG').empty();
+    document.getElementById("descrizioneSelectCalcioASG").innerHTML = a;
 }
 
 function funcUtente(a){
@@ -281,7 +330,7 @@ function funcUtente(a){
                     }
                 });
                 
-                $('#btnModificaPermessiUtente').click(function(){
+                $('#btnModificaPermessiUtente').unbind().click(function(){
                     var ruolo = $('#selectRuoliUtente').val();
                     var permesso = $('#selectPermessiUtente').val();
                     var desc = $('#descrizioneUtenteUpdate').val();
@@ -357,7 +406,8 @@ function funcLogin(){
     $('#contentUtenti').hide();
     $('#contentEventi').hide();
     
-    $('#inviaLogin').click(function() {
+    $('#inviaLogin').unbind().click(function() {
+        
         var nick = $('#nickSI').val();
         var pass = $('#passSI').val();
         var json = {"nick":nick, "pass":pass};
@@ -370,6 +420,12 @@ function funcLogin(){
                 
                 document.getElementById("nickSI").value = "";
                 document.getElementById("passSI").value = "";
+                
+                $('#contentBenvenuto').show();
+        
+                $('#contentNonLoggato').hide();
+                $('#contentLoggato').hide();
+                $('#contentNonLoggatoSuccessiva').show();
             }
         });
     });
@@ -411,12 +467,18 @@ function funcSignup(){
                 document.getElementById("emailSU").value = "";
                 document.getElementById("nomeSU").value = "";
                 document.getElementById("cognomeSU").value = "";
+                $('#contentBenvenuto').show();
+        
+                $('#contentNonLoggato').hide();
+                $('#contentLoggato').hide();
+                $('#contentNonLoggatoSuccessiva').show();
             }
         });
     });
 }
 
 $(document).ready(function(){
+    $.ajaxSetup({ cache: false });
     $('#contentLogin').hide();
     $('#contentSignin').hide();
     $('#contentASG').hide();
@@ -428,7 +490,7 @@ $(document).ready(function(){
     $('#btnLogout').hide();
     $('#tue_asg').hide();
     
-    $('#contentNonLoggato').hide();
+    $('#contentNonLoggato').show();
     $('#contentLoggato').hide();
     $('#contentNonLoggatoSuccessiva').hide();
     
@@ -441,14 +503,18 @@ $(document).ready(function(){
     
     $.getJSON('scriptPHP/sessionWiew.php',function(response){
         if(response){
-            if(response!="0"){
+            if(response!="0" || response!="null"){
+                $('#contentNonLoggato').hide();
                 $('#btnLogout').show();
                 $('#tue_asg').show();
-                $('#contentLoggato').show();
+                $('#contentBenvenuto').show();
+                $('#contentNonLoggatoSuccessiva').show();
+                // $('#contentLoggato').show();
             }
-            else if(response=="0"){
-                $('#contentNonLoggato').show();
-            }
+            // else{
+            //     $('#contentBenvenuto').show();
+            //     $('#contentNonLoggato').show();
+            // }
         }
     });
     
@@ -463,20 +529,18 @@ $(document).ready(function(){
         $('#contentUtenti').hide();
         $('#contentBenvenuto').show();
         
-        $('#contentNonLoggato').hide();
+        $('#contentNonLoggato').show();
         $('#contentLoggato').hide();
         $('#contentNonLoggatoSuccessiva').hide();
         
-        $.getJSON('scriptPHP/sessionWiew.php',function(response){
-            if(response){
-                if(response!="null"){
-                    $('#contentLoggato').show();
-                }
-                else{
-                    $('#contentNonLoggatoSuccessiva').show();
-                }
-            }
-        });
+        // $.getJSON('scriptPHP/sessionWiew.php',function(response){
+        //     if(response){
+        //         if(response!="null"){
+        //             $('#contentNonLoggatoSuccessiva').hide();
+        //             $('#contentLoggato').show();
+        //         }
+        //     }
+        // });
     });
     
     $('#eventi').click(function(){
@@ -502,74 +566,88 @@ $(document).ready(function(){
                     var data =  v['Data'];
                     var dateAr = data.split('-');
                     var newDate = dateAr[2] + '/' + dateAr[1] + '/' + dateAr[0];
-                    var row = $('<tr><td><h3><a id="descEvento" href="" class="black-text" onclick="funcEvento('+v['id']+');return false;">'+v['Nome']+'</a></h3></td><td> '+newDate+'</td></tr><tr><td colspan="2"><h5><a id="descEvento" href="" class="black-text" onclick="funcCampo('+v['idCampo']+');return false;">'+v['NomeCampo']+'</a></h5></td></tr><tr><td colspan="2" class="bordo">'+v['Descrizione']+'</td></tr>');
+                    var row = $('<tr><td><h3><a id="descEvento" href="" class="black-text" onclick="funcEvento('+v['id']+');return false;">'+v['Nome']+'</a></h3></td><td> '+newDate+'</td></tr><tr><td colspan="2"><h5><a id="descEvento" href="" class="black-text" onclick="funcCampo('+v['idCampo']+');return false;">'+v['NomeCampo']+'</a></h5></td></tr><tr><td colspan="2">'+v['Descrizione']+'</td></tr><tr><td colspan="2" class="bordo"><div align="center"><button id="eliminaEvento" class="btn btn-primary" onclick="funcEliminaEvento('+v['id']+')">ELIMINA EVENTO</button></div></td></tr>');
                     table.append(row);
                 });
                 $('#contentEventiDinamic').append(table);
+                $('#eliminaEvento').hide();
                 
                 $.getJSON('scriptPHP/eventoPermisWiew.php',function(response) {
                     if(response){
                         if(response=='show'){
                             $('#btnInserisciEvento').show();
+                            $('#eliminaEvento').show();
                         }
                     }
                 });
                 
-                $('#btnInserisciEvento').click(function() {
-                    $('#contentEventiDinamic').hide();
-                    $('#btnInserisciEvento').hide();
-                    $('#contentInserimentoEventi').show();
-                    $('#selectCampoEvento').show();
-                    
-                    document.getElementById("dataInserimentoEvento").value = "";
-                    document.getElementById("nomeEvento").value = "";
-                    document.getElementById("descrizioneEvento").value = "";
-                    $('#selectCampoEvento').empty();
-                    
-                    $.getJSON('scriptPHP/getCampi.php',function(response) {
-                        if(response){
-                            $.each(response,function(k,v){
-                                var row = $('<option value="'+v['idCampo']+'">'+v['NomeCampo']+'</option>');
-                                $('#selectCampoEvento').append(row);
-                            });
-                        }
+                
+            }
+        });
+        $('#btnInserisciEvento').unbind().click(function() {
+            $('#contentEventiDinamic').hide();
+            $('#btnInserisciEvento').hide();
+            $('#contentInserimentoEventi').show();
+            $('#contentSelectCampoEventi').empty();
+            
+            document.getElementById("dataInserimentoEvento").value = "";
+            document.getElementById("nomeEvento").value = "";
+            document.getElementById("descrizioneEvento").value = "";
+            $('#selectCampoEvento').empty();
+            
+            $.getJSON('scriptPHP/getCampi.php',function(response) {
+                if(response){
+                    var select = $('<select id="selectCampoEvento" class="selectInitCampi"></select>');
+                    $.each(response,function(k,v){
+                        var row = $('<option value="'+v['idCampo']+'">'+v['NomeCampo']+'</option>');
+                        select.append(row);
                     });
+                    $('#contentSelectCampoEventi').append(select);
                     
-                    var button = $('<button type="button" class="btn btn-primary navbar-btn" id="inserisciEvento">INSERISCI</button>')
-                    $('#btnEventoInserisciModifica').empty();
-                    $('#btnEventoInserisciModifica').append(button);
-                    
-                    $('#inserisciEvento').click(function() {
+                    $(document).ready(function() {
+                        $('.selectInitCampi').material_select();
+                    });
+                }
+            });
+            
+            var button = $('<button type="button" class="btn btn-primary navbar-btn" id="inserisciEvento">INSERISCI</button>')
+            $('#btnEventoInserisciModifica').empty();
+            $('#btnEventoInserisciModifica').append(button);
+            
+            $('#inserisciEvento').click(function() {
+                var data =  $('#dataInserimentoEvento').val();
+                var dateAr = data.split(' ');
+                
+                var json = {"mese":dateAr[1]};
+                $.getJSON('scriptPHP/monthConverter.php',json,function(response){
+                    if(response){
+                        var mese = response;
                         var data =  $('#dataInserimentoEvento').val();
                         var dateAr = data.split(' ');
+                        dateAr[1]= mese;
                         
-                        var json = {"mese":dateAr[1]};
-                        $.getJSON('scriptPHP/monthConverter.php',json,function(response){
+                        var newDate = dateAr[2] + '-' + dateAr[1] + '-' + dateAr[0];
+                        
+                        var nome = $('#nomeEvento').val();
+                        var descrizione = $('#descrizioneEvento').val();
+                        var campo = $('#selectCampoEvento').val();
+                        
+                        var json = {"nome":nome, "descrizione":descrizione, "data":newDate, "campo":campo};
+                
+                        $.getJSON('scriptPHP/insertEvento.php',json,function(response){
                             if(response){
-                                var mese = response;
-                                var data =  $('#dataInserimentoEvento').val();
-                                var dateAr = data.split(' ');
-                                dateAr[1]= mese;
-                                
-                                var newDate = dateAr[2] + '-' + dateAr[1] + '-' + dateAr[0];
-                                
-                                var nome = $('#nomeEvento').val();
-                                var descrizione = $('#descrizioneEvento').val();
-                                var campo = $('#selectCampoEvento').val();
-                                
-                                var json = {"nome":nome, "descrizione":descrizione, "data":newDate, "campo":campo};
-                        
-                                $.getJSON('scriptPHP/insertEvento.php',json,function(response){
-                                    if(response){
-                                        alert(response);
-                                        $('#contentInserimentoEventi').hide();
-                                    }
-                                });
+                                alert(response);
+                                $('#contentInserimentoEventi').hide();
+                                $('#contentBenvenuto').show();
+
+                                $('#contentNonLoggato').hide();
+                                $('#contentLoggato').hide();
+                                $('#contentNonLoggatoSuccessiva').show();
                             }
-                        }); 
-                    });
-                });
-            }
+                        });
+                    }
+                }); 
+            });
         });
     });
     
@@ -609,6 +687,10 @@ $(document).ready(function(){
         $('#contentEventi').hide();
         $('#contentDescEventi').hide();
         $('#contentCampo').show();
+        
+        $('#btnInserisciCampo').hide();
+        $('#contentUpdateCampo').hide();
+        $('#contentInsertCampo').hide();
         $('#contentCampoDinamic').show();
         $('#contentCampoDinamic').empty();
         $.getJSON('scriptPHP/getCampi.php',function(response) {
@@ -620,6 +702,41 @@ $(document).ready(function(){
                 });
                 $('#contentCampoDinamic').append(table);
             }
+        });
+        
+        $.getJSON('scriptPHP/utentePermisWiew.php',function(response) {
+            if(response){
+                if(response=='show'){
+                    $('#btnInserisciCampo').show();
+                }
+            }
+        });
+        
+        $('#btnInserisciCampo').click(function() {
+            $('#btnInserisciCampo').hide();
+            $('#contentUpdateCampo').hide();
+            $('#contentCampoDinamic').hide();
+            $('#contentInsertCampo').show();
+            
+            $('#btnInseritCampo').click(function() {
+                var nome = $('#nomeCampoI').val();
+                var via = $('#viaCampoI').val();
+                var loc = $('#localitaCampoI').val();
+                var map = $('#mappaCampoI').val();
+                
+                var json = {"nome":nome,"via":via,"loc":loc,"map":map};
+                $.getJSON('scriptPHP/insertCampo.php',json,function(response) {
+                    if(response){
+                        alert(response);
+                        $('#contentCampo').hide();
+                        $('#contentBenvenuto').show();
+        
+                        $('#contentNonLoggato').hide();
+                        $('#contentLoggato').hide();
+                        $('#contentNonLoggatoSuccessiva').show();
+                    }
+                });
+            });
         });
     });
     
@@ -675,6 +792,12 @@ $(document).ready(function(){
                         $.getJSON('scriptPHP/insertASG.php',json,function(response) {
                             if(response){
                                 alert(response);
+                                $('#contentASG').hide();
+                                $('#contentBenvenuto').show();
+        
+                                $('#contentNonLoggato').hide();
+                                $('#contentLoggato').hide();
+                                $('#contentNonLoggatoSuccessiva').show();
                             }
                         });
                     }
@@ -690,11 +813,16 @@ $(document).ready(function(){
     $('#btnLogout').click(function(){
         $.getJSON('scriptPHP/logout.php',function(response){
             if(response){
-                    alert(response);
-                    $('#btnLogout').hide();
-                    $('#tue_asg').hide();
-                }
-            });
+                alert(response);
+                $('#btnLogout').hide();
+                $('#tue_asg').hide();
+                $('#contentBenvenuto').show();
+        
+                $('#contentNonLoggato').hide();
+                $('#contentLoggato').hide();
+                $('#contentNonLoggatoSuccessiva').show();
+            }
+        });
     });
     
     $('#btnSignin').click(function(){

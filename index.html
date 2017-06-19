@@ -11,11 +11,13 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
 	    <link rel="SHORTCUT ICON" href="https://yt3.ggpht.com/-eXQjqGGRF6c/AAAAAAAAAAI/AAAAAAAAAAA/pXX7rF00Nr4/s100-c-k-no-mo-rj-c0xffffff/photo.jpg" />
 	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+	    <link rel="stylesheet" href="css/textarea.css" type="text/css" />
 	</head>
-	<header>
-		<img src="immagini/varie/CopertinaSito.png" class="stretchImg">
-	</header>
+	
 	<main>
+		<header>
+			<img src="immagini/varie/CopertinaSito.png" class="stretchImg">
+		</header>
 		<body id="principale">
 			<ul id="dropdown1" class="dropdown-content">
 			  <li><a id="campi" class="#ffffff white red-text">I NOSTRI CAMPI</a></li>
@@ -43,11 +45,47 @@
 				<div id="contentBenvenuto" align="center" class="col s8 offset-s2">
 					<div id="contentNonLoggato" align="center">
 						<h3>Benvenuto!!</h3></br>
-						<h4>Questa è la pagina di</br>Softair <span class="#eceff1 blue-grey"><span class="red-text text-darken-3">Lupi</span> <span class="white-text">di</span> <span class="red-text text-darken-3">Toscana</span></span>!</h4></br>
-						<h5><b>Fai già parte di noi?</b></br></br>Se sì, allora effettua subito il <a href="" class="black-text" onclick="funcLogin();return false;">LOGIN</a> per poter partecipare agli eventi.</br></br>Altrimenti, se vuoi prendere parte alle nostre giocate, <a href="" class="black-text" onclick="funcSignup();return false;">REGISTRATI</a>.</h5>
+						<h4>Questa è la pagina di</br>Softair <span class="red-text text-darken-3">Lupi</span> di <span class="red-text text-darken-3">Toscana</span>!</h4></br>
+						<h5><b>Fai già parte di noi?</b></br></br>Se <b>sì</b>, allora effettua subito il <a href="" class="black-text" onclick="funcLogin();return false;">LOGIN</a> per poter partecipare agli eventi.</br></br>Altrimenti, se vuoi prendere parte alle nostre giocate, <a href="" class="black-text" onclick="funcSignup();return false;">REGISTRATI</a>.</h5>
 					</div>
 					<div id="contentLoggato" align="center">
-						
+						<h3>Statistiche personali:</h3>
+						<table>
+							<tr>
+								<td id="imgUtenteLoggato" colspan="2">
+									
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2"><h4>Statistiche partite.</h4></td>
+							</tr>
+							<tr>
+								<td id="nPartiteGiocate" class="stat" colspan="2"></td>
+							</tr>
+							<tr>
+								<td id="nPartiteVinte" class="stat"></td>
+								<td id="nPartitePerse" class="stat"></td>
+							</tr>
+							<tr>
+								<td colspan="2"><h4>Statistiche Uccisioni/Morti.</h4></td>
+							</tr>
+							<tr>
+								<td id="KDRatio" class="stat" colspan="2"></td>
+							</tr>
+							<tr>
+								<td id="uccisioni" class="stat"></td>
+								<td id="morti" class="stat"></td>
+							</tr>
+							<tr>
+								<td colspan="2"><h4>Encomi:</h4></td>
+							</tr>
+							<tr>
+								<td id="encomi" class="stat" colspan="2"></td>
+							</tr>
+							<tr>
+								<td colspan="2"><h4><a id="visClassifica" href="" onclick="funcClassifica();return false;">Visualizza classifica</a></h4></td>
+							</tr>
+						</table>
 					</div>
 					<div id="contentNonLoggatoSuccessiva" align="center">
 						<table>
@@ -106,8 +144,19 @@
 											equipaggiamento, e soprattutto migliore. Scoprimmo che il gioco a cui giocavamo si chiamava Soft-air, 
 											aria compressa in Italiano, e con l'aumentare di numero ed il migliorare di tecniche e fucili, naque anche l'esigenza 
 											di avere un nome e un simbolo in cui riconoscersi. Dopo alcune discussioni la maggioranza optò per "Lupi di Toscana", 
-											in onore al servizio reso da 2000 in questo corpo e... dal fatto che nessuno aveva un'idea migliore. 
+											in onore al servizio reso da "2000" in questo corpo e... dal fatto che nessuno aveva un'idea migliore. 
 											Studiammo il nuovo stemma (anche qui una grande fantasia) che prevedeva i colori sociali dei lupi.
+											<table>
+												<tr>
+													<td><img src="immagini/varie/vecchia1.jpg" class="responsive-img imgRinchiusa"></td>
+												</tr>
+												<tr>
+													<td><img src="immagini/varie/vecchia2.jpg" class="responsive-img imgRinchiusa"></td>
+												</tr>
+												<tr>
+													<td><img src="immagini/varie/vecchia4.jpg" class="responsive-img imgRinchiusa"></td>
+												</tr>
+											</table>
 										</p>
 									</div>
 								</td>
@@ -115,6 +164,11 @@
 							<tr>
 								<td><div align="center"><h4>I Lupi come sono oggi.</h4></div></td>
 							</tr>
+							<table>
+								<tr>
+									<td><img src="immagini/varie/nuova.jpg" class="responsive-img imgRinchiusa"></td>
+								</tr>
+							</table>
 							<tr>
 								<td>
 									<div align="center">
@@ -122,8 +176,25 @@
 											Da quel Settembre 2009 sono stati tanti i "lupi" che sono arrivati, e tanti quelli che se ne sono andati, 
 											ma lo zoccolo duro è sempre quello. Tre dei quattro che quella prima volta c'erano, ci sono ancora. 
 											Ma anche i due assenti di quel giorno, ma presenti tutte le altre volte, fanno ancora parte di questo gruppo. 
-											E la parte più importante è che l'entusiasmo e la passione di quella prima volta non è diminuita, anzi, è 
+											Gruppo che dopo anni di intense battaglie "fratricide", ha portato il suo vessillo in terreno "ostile".
+											Anche se poche, le trasferte hanno rappresentato un passo in avanti per il nostro gruppo, e... condite 
+											da vittoriose giocate! Come è nel DNA dei lupi...
+											<table>
+												<tr>
+													<td><img src="immagini/varie/gus.jpg" class="responsive-img imgRinchiusa"></td>
+												</tr>
+											</table>
+											Ma, in fondo, la parte più importante è che l'entusiasmo e la passione di quella prima volta non è diminuita, anzi, è 
 											probabilmente aumentata, producendosi in numerose opere.
+											<table>
+												<tr>
+													<td><img src="immagini/varie/cespuglio.jpg" class="responsive-img imgRinchiusa"></td>
+													<td><img src="immagini/varie/scudo.jpg" class="responsive-img imgRinchiusa"></td>
+												</tr>
+												<tr>
+													<td colspan="2"><img src="immagini/varie/tanti.jpg" class="responsive-img imgRinchiusa"></td>
+												</tr>
+											</table>
 										</p>
 									</div>
 								</td>
@@ -155,7 +226,7 @@
 					<button type="button" class="btn btn-primary navbar-btn" id="inviaSignin">SIGNUP</button></br>
 				</div>
 				
-				<div id="contentEventi" align="center" class="col s8 offset-s2 input-field">
+				<div id="contentEventi" align="center" class="col s10 offset-s1 input-field">
 					</br><button id="btnInserisciEvento" class="btn btn-primary">INSERISCI EVENTO</button>
 					<div id="contentEventiDinamic" align="center" class="col s8 offset-s2 input-field">
 						
@@ -163,9 +234,9 @@
 					<div id="contentInserimentoEventi" align="center" class="col s8 offset-s2 input-field">
 						Nome<input type="text" id="nomeEvento" value=""></br>
 						Data<input id="dataInserimentoEvento" type="date" class="datepicker"></br>
-						Campo<select id="selectCampoEvento">
+						Campo<div id="contentSelectCampoEventi" align="center">
 							
-						</select></br>
+						</div>
 						Descrizione<textarea id="descrizioneEvento" class="materialize-textarea">
 							
 						</textarea></br>
@@ -198,15 +269,17 @@
 					<div id="contentNoleggiaASG" class="input-field" align="center">
 						<table>
 							<tr>
-								<td><h3>Noleggio ASG</h3></td>
+								<td  colspan="3"><div align="center"><h3>Noleggio ASG</h3></div></td>
 							</tr>
 							<tr>
-								<td id="tdNomeASGNoleggio">
-									
+								<td colspan="3">
+									<div  id="tdNomeASGNoleggio" align="center">
+										
+									</div>
 								</td>
 							</tr>
 							<tr>
-								<td id="imgNoleggioASG">
+								<td id="imgNoleggioASG" colspan="3">
 									
 								</td>
 							</tr>
@@ -222,18 +295,51 @@
 								</td>
 							</tr>
 							<tr>
-								<td><button id="btnPrenotaASG" class="btn btn-primary">PRENOTA ARMA</button></td>
+								<td id="tdDescCalcioAnterioreASG">
+									<textarea id="descrizioneSelectCalcioASG" class="materialize-textarea imgRinchiusa">
+							
+									</textarea>
+								</td>
+								<td id="tdDescMirinoASG">
+									<textarea id="descrizioneSelectMirinoASG" class="materialize-textarea imgRinchiusa">
+							
+									</textarea>
+								</td>
+								<td id="tdDescCaricatoreASG">
+									<textarea id="descrizioneSelectCaricatoreASG" class="materialize-textarea imgRinchiusa">
+							
+									</textarea>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="3"><div align="center"><button id="btnPrenotaASG" class="btn btn-primary">PRENOTA ARMA</button></div></td>
 							</tr>
 						</table>
 					</div>
 				</div>
 				
 				<div id="contentCampo" align="center" class="col s8 offset-s2">
+					<button id="btnInserisciCampo" class="btn btn-primary">INSERISCI CAMPO</button>
 					<div id="contentCampoDinamic" align="center">
 					
 					</div>
 					<div id="contentUpdateCampo" align="center">
-					
+						Nome <input type="text" id="nomeCampoU" valur=""></br>
+						Località <input type="text" id="localitaCampoU" valur=""></br>
+						Via <input type="text" id="viaCampoU" valur=""></br>
+						Mappa(URL Google Maps) <textarea id="mappaCampoU" class="materialize-textarea imgRinchiusa">
+							
+						</textarea></br>
+						<button id="btnUpdateCampo" class="btn btn-primary">INSERISCI CAMPO</button>
+					</div>
+					<div id="contentInsertCampo" align="center">
+						Nome <input type="text" id="nomeCampoI" valur=""></br>
+						Località <input type="text" id="localitaCampoI" valur=""></br>
+						Via <input type="text" id="viaCampoI" valur=""></br>
+						Mappa(URL Google Maps) <textarea id="mappaCampoI" class="materialize-textarea imgRinchiusa">
+							
+						</textarea></br>
+						<button id="btnInseritCampo" class="btn btn-primary">INSERISCI CAMPO</button>
 					</div>
 				</div>
 				
@@ -280,10 +386,10 @@
 							<i>Seguici anche su:</i>
 						</td>
 						<td>
-							<a href="https://www.facebook.com/SoftAirLupiDiToscana/"><img src="immagini/varie/Facebook.png" class="icons">Facebook</a>
+							<a href="https://www.facebook.com/SoftAirLupiDiToscana/"><img src="immagini/varie/Facebook.png" class="circle icons"></a>
 						</td>
 						<td>
-							<a href="https://www.youtube.com/channel/UC90jIZvP2vQe2cnzr4EyVqQ"><img src="immagini/varie/YouTube.png" class="icons">You Tube</a>
+							<a href="https://www.youtube.com/channel/UC90jIZvP2vQe2cnzr4EyVqQ"><img src="immagini/varie/YouTube.PNG" class="circle icons"></a>
 						</td>
 					</tr>
 				</table>
@@ -291,42 +397,4 @@
 		</div>
 	</footer>
 	<script src="scriptJS/jquery.js"></script>
-	<style>
-		.stretchImg{
-			width:100%;
-			height:300px;
-		}
-		
-		.icons{
-			width:30px;
-			height:30px;
-		}
-		
-		.bordo{
-			border-bottom-color: black;
-			border-bottom-style: solid;
-			border-bottom-width: 1px;
-		}
-		
-		.imgRinchiusa {
-			display: block;
-			margin: 0 auto;
-		}
-		
-		#faqs{
-			background-color: #616161;
-		}
-		
-		#principale{
-			background-image: url("immagini/varie/roma.jpg");
-		}
-		
-		#btnGestione{
-			text-align: center;
-		}
-		
-		input{
-			text-align: center;
-		}
-	</style>
 </html>
