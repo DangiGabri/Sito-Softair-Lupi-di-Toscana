@@ -6,8 +6,9 @@
     try{
     	
 		$dbh = new PDO('mysql:host='.$host.';dbname='.$dbNome,$username,$password);
-		$stm = $dbh->prepare('SELECT u.id, u.Nome, u.Descrizione FROM SitoSoftairLupiDiToscana.UpgradeASG u WHERE u.idTipo=1');
-		if($stm->execute() == true){
+		$stm = $dbh->prepare('SELECT * FROM SitoSoftairLupiDiToscana.UpgradeASG WHERE idTipo=1');
+		$stm->execute();
+		if($stm->errorCode() == 0){
 			echo json_encode($stm->fetchAll());
 		}
 		else

@@ -6,15 +6,14 @@
     try{
     	
 		$dbh = new PDO('mysql:host='.$host.';dbname='.$dbNome,$username,$password);
-		$stm = $dbh->prepare('UPDATE SitoSoftairLupiDiToscana.Evento e SET Nome=:nome, Descrizione=:desc, Data=:data, idCampo=:campo WHERE e.id=:id');
+		$stm = $dbh->prepare('UPDATE SitoSoftairLupiDiToscana.Campo u SET NomeCampo=:nome, Via=:via, Localita=:localita WHERE u.idCampo=:id');
+		$stm->bindValue(':via',$_GET['via']);
 		$stm->bindValue(':nome',$_GET['nome']);
-		$stm->bindValue(':data',$_GET['data']);
-		$stm->bindValue(':campo',$_GET['campo']);
-		$stm->bindValue(':desc',$_GET['descrizione']);
+		$stm->bindValue(':localita',$_GET['localita']);
 		$stm->bindValue(':id',$_GET['id']);
 		$stm->execute();
 		if($stm->errorCode() == 0){
-			echo json_encode('Evento modificato.');
+			echo json_encode('Campo modificato.');
 		}
 		else
 		{

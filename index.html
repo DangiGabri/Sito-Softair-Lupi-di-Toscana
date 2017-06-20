@@ -19,6 +19,7 @@
 			<img src="immagini/varie/CopertinaSito.png" class="stretchImg">
 		</header>
 		<body id="principale">
+			
 			<ul id="dropdown1" class="dropdown-content">
 			  <li><a id="campi" class="#ffffff white red-text">I NOSTRI CAMPI</a></li>
 			  <li><a id="storia" class="#ffffff white red-text">STORIA</a></li>
@@ -40,9 +41,11 @@
 					</ul>
 				</div>
 			</nav>
+			
 			</br>
+			
 			<div class="container row #ffffff white">
-				<div id="contentBenvenuto" align="center" class="col s8 offset-s2">
+				<div id="contentBenvenuto" align="center" class="col s10 offset-s1">
 					<div id="contentNonLoggato" align="center">
 						<h3>Benvenuto!!</h3></br>
 						<h4>Questa è la pagina di</br>Softair <span class="red-text text-darken-3">Lupi</span> di <span class="red-text text-darken-3">Toscana</span>!</h4></br>
@@ -211,13 +214,14 @@
 						</table>
 					</div>
 				</div>
-				<div id="contentLogin" align="center" class="col s8 offset-s2">
+				
+				<div id="contentLogin" align="center" class="col s10 offset-s1">
 					Nickname<input type="text" id="nickSI" value=""></br>
 					Password<input type="password" id="passSI" value=""></br>
 					<button type="button" class="btn btn-primary navbar-btn" id="inviaLogin">LOGIN</button></br>
 				</div>
 				
-				<div id="contentSignin" align="center" class="col s8 offset-s2">
+				<div id="contentSignin" align="center" class="col s10 offset-s1">
 					Nome<input type="text" id="nomeSU" value=""></br>
 					Cognome<input type="text" id="cognomeSU" value=""></br>
 					Nickname<input type="text" id="nickSU" value=""></br>
@@ -228,10 +232,10 @@
 				
 				<div id="contentEventi" align="center" class="col s10 offset-s1 input-field">
 					</br><button id="btnInserisciEvento" class="btn btn-primary">INSERISCI EVENTO</button>
-					<div id="contentEventiDinamic" align="center" class="col s8 offset-s2 input-field">
+					<div id="contentEventiDinamic" align="center" class="col s10 offset-s1 input-field">
 						
 					</div>
-					<div id="contentInserimentoEventi" align="center" class="col s8 offset-s2 input-field">
+					<div id="contentInserimentoEventi" align="center" class="col s10 offset-s1 input-field">
 						Nome<input type="text" id="nomeEvento" value=""></br>
 						Data<input id="dataInserimentoEvento" type="date" class="datepicker"></br>
 						Campo<div id="contentSelectCampoEventi" align="center">
@@ -246,7 +250,7 @@
 					</div>
 				</div>
 				
-				<div id="contentASG" align="center" class="col s8 offset-s2">
+				<div id="contentASG" align="center" class="col s10 offset-s1">
 					</br><button id="btnInserisciASG" class="btn btn-primary">INSERISCI ARMA</button>
 					<div id="contentASGDinamic" align="center">
 						
@@ -258,7 +262,9 @@
 						Descrizione<textarea id="descrizioneASG" class="materialize-textarea">
 							
 						</textarea></br>
-						</br><button id="btnInsertASG" class="btn btn-primary">INSERISCI ARMA</button>
+						<div id="divBtnAggiungiASG" align="center">
+							
+						</div>
 					</div>
 					<div id="contentPartecipaASG" class="input-field" align="center">
 						<h3>Possiedi un'ASG(Air Soft Gun)?</h3></br>
@@ -284,6 +290,11 @@
 								</td>
 							</tr>
 							<tr>
+								<td><h5>Calci anteriori</h5></td>
+								<td><h5>Mirini</h5></td>
+								<td><h5>Caricatori</h5></td>
+							</tr>
+							<tr>
 								<td id="tdSelectCalcioAnterioreASG">
 									
 								</td>
@@ -294,23 +305,23 @@
 									
 								</td>
 							</tr>
-							<tr>
-								<td id="tdDescCalcioAnterioreASG">
-									<textarea id="descrizioneSelectCalcioASG" class="materialize-textarea imgRinchiusa">
+							<!--<tr>-->
+							<!--	<td id="tdDescCalcioAnterioreASG">-->
+							<!--		<textarea id="descrizioneSelectCalcioASG" class="materialize-textarea imgRinchiusa">-->
 							
-									</textarea>
-								</td>
-								<td id="tdDescMirinoASG">
-									<textarea id="descrizioneSelectMirinoASG" class="materialize-textarea imgRinchiusa">
+							<!--		</textarea>-->
+							<!--	</td>-->
+							<!--	<td id="tdDescMirinoASG">-->
+							<!--		<textarea id="descrizioneSelectMirinoASG" class="materialize-textarea imgRinchiusa">-->
 							
-									</textarea>
-								</td>
-								<td id="tdDescCaricatoreASG">
-									<textarea id="descrizioneSelectCaricatoreASG" class="materialize-textarea imgRinchiusa">
+							<!--		</textarea>-->
+							<!--	</td>-->
+							<!--	<td id="tdDescCaricatoreASG">-->
+							<!--		<textarea id="descrizioneSelectCaricatoreASG" class="materialize-textarea imgRinchiusa">-->
 							
-									</textarea>
-								</td>
-							</tr>
+							<!--		</textarea>-->
+							<!--	</td>-->
+							<!--</tr>-->
 							<tr>
 								<td colspan="3"><div align="center"><button id="btnPrenotaASG" class="btn btn-primary">PRENOTA ARMA</button></div></td>
 							</tr>
@@ -318,32 +329,27 @@
 					</div>
 				</div>
 				
-				<div id="contentCampo" align="center" class="col s8 offset-s2">
+				<div id="contentCampo" align="center" class="col s10 offset-s1">
 					<button id="btnInserisciCampo" class="btn btn-primary">INSERISCI CAMPO</button>
 					<div id="contentCampoDinamic" align="center">
 					
-					</div>
-					<div id="contentUpdateCampo" align="center">
-						Nome <input type="text" id="nomeCampoU" valur=""></br>
-						Località <input type="text" id="localitaCampoU" valur=""></br>
-						Via <input type="text" id="viaCampoU" valur=""></br>
-						Mappa(URL Google Maps) <textarea id="mappaCampoU" class="materialize-textarea imgRinchiusa">
-							
-						</textarea></br>
-						<button id="btnUpdateCampo" class="btn btn-primary">INSERISCI CAMPO</button>
 					</div>
 					<div id="contentInsertCampo" align="center">
 						Nome <input type="text" id="nomeCampoI" valur=""></br>
 						Località <input type="text" id="localitaCampoI" valur=""></br>
 						Via <input type="text" id="viaCampoI" valur=""></br>
-						Mappa(URL Google Maps) <textarea id="mappaCampoI" class="materialize-textarea imgRinchiusa">
+						<div id="divMappaCampoI" align="center">
+							Mappa(URL Google Maps) <textarea id="mappaCampoI" class="materialize-textarea imgRinchiusa">
+								
+							</textarea></br>	
+						</div>
+						<div id="contentBtnInserisciCampo">
 							
-						</textarea></br>
-						<button id="btnInseritCampo" class="btn btn-primary">INSERISCI CAMPO</button>
+						</div>
 					</div>
 				</div>
 				
-				<div id="contentSquadra" align="center" class="col s8 offset-s2 input-field">
+				<div id="contentSquadra" align="center" class="col s10 offset-s1 input-field">
 					<div id="contentSquadraDinamic" align="center">
 						
 					</div>
@@ -377,6 +383,7 @@
 			
 		</body>
 	</main>
+	
 	<footer class="page-footer">
 		<div class="row">
 			<div class="col s8 offset-s2" valign="middle">
@@ -396,5 +403,6 @@
 			</div>
 		</div>
 	</footer>
+	
 	<script src="scriptJS/jquery.js"></script>
 </html>

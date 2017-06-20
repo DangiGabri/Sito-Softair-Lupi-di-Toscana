@@ -9,7 +9,7 @@ function funcEvento(a){
                 var data =  v['Data'];
                 var dateAr = data.split('-');
                 var newDate = dateAr[2] + '/' + dateAr[1] + '/' + dateAr[0];
-                var row = $('<tr><td><h3>'+v['Nome']+'</h3></td><td> '+newDate+'</td></tr><tr><td colspan="2" class="bordo">'+v['Descrizione']+'</td></tr><tr><td id="btnGestione" colspan="2"><button id="btnPartecipa" class="btn btn-primary">Partecipa</button></td></tr><tr><td id="btnGestione" colspan="2"><button id="btnModificaEvento" class="btn btn-primary">Modifica</button></td></tr>');
+                var row = $('<tr><td><h3>'+v['Nome']+'</h3></td><td> '+newDate+'</td></tr><tr><td colspan="2" class="bordo">'+v['Descrizione']+'</td></tr><tr><td id="btnGestione" colspan="2"><button id="btnPartecipa" class="btn btn-primary">Partecipa</button></td></tr><tr><td id="btnGestione" colspan="2"><button id="btnModificaEvento" class="btn btn-primary">Modifica</button></td></tr><tr><td colspan="2" class=""><button id="btnEliminaEvento" class="btn btn-primary" onclick="funcEliminaEvento('+v['id']+')">ELIMINA EVENTO</button></td></tr>');
                 table.append(row);
             });
             
@@ -17,11 +17,13 @@ function funcEvento(a){
             
             $('#btnModificaEvento').hide();
             $('#btnPartecipa').hide();
+            $('#btnEliminaEvento').hide();
             
             $.getJSON('scriptPHP/eventoPermisWiew.php',function(response) {
                 if(response){
                     if(response=='show'){
                         $('#btnModificaEvento').show();
+                        $('#btnEliminaEvento').show();
                     }
                 }
             });
@@ -37,14 +39,20 @@ function funcEvento(a){
             $('#btnModificaEvento').unbind().click(function() {
                 $('#btnInserisciEvento').hide();
                 $('#contentInserimentoEventi').show();
-                $('#selectCampoEvento').show();
+                $('#contentSelectCampoEventi').empty();
                 $('#contentEventiDinamic').empty();
                 
                 $.getJSON('scriptPHP/getCampi.php',function(response) {
                         if(response){
+                            var select = $('<select id="selectCampoEvento" class="selectInitCampi"></select>');
                             $.each(response,function(k,v){
                                 var row = $('<option value="'+v['idCampo']+'">'+v['NomeCampo']+'</option>');
-                                $('#selectCampoEvento').append(row);
+                                select.append(row);
+                            });
+                            $('#contentSelectCampoEventi').append(select);
+                            
+                            $(document).ready(function() {
+                                $('.selectInitCampi').material_select();
                             });
                         }
                     });
@@ -53,7 +61,7 @@ function funcEvento(a){
                 $('#btnEventoInserisciModifica').empty();
                 $('#btnEventoInserisciModifica').append(button);
                 
-                $('#modificaEvento').click(function(){
+                $('#modificaEvento').unbind().click(function(){
                     var data =  $('#dataInserimentoEvento').val();
                     var dateAr = data.split(' ');
                     
@@ -112,7 +120,7 @@ function funcEvento(a){
                                     $('#contentNoleggiaASG').hide();
                                     $('#contentPartecipaASG').show();
                                     
-                                    $('#btnNoleggiaASG').click(function() {
+                                    $('#btnNoleggiaASG').unbind().click(function() {
                                         $('#contentPartecipaASG').hide();
                                         $('#contentASGDinamic').empty();
                                         $('#contentASGDinamic').show();
@@ -121,7 +129,7 @@ function funcEvento(a){
                                             if(response){
                                                 var table = $('<table id="tbASG" class="responsive-table"></table>');
                                                 $.each(response,function(k,v){
-                                                    var row = $('<tr><td><h3><a id="descASG" href="" class="black-text" onclick="funcNoleggia('+v['idASG']+',a);return false;">'+v['Nome']+'</a></h3></td><td> '+v['Marca']+'</td><td> '+v['Potenza']+'</td></tr><tr><td colspan="3" class="bordo">'+v['Descrizione']+'</td></tr>');
+                                                    var row = $('<tr><td><h3><a id="descASG" href="" class="black-text" onclick="funcNoleggia('+ v['idASG'] +', ' + a + ');return false;">'+v['Nome']+'</a></h3></td><td> '+v['Marca']+'</td><td> '+v['Potenza']+'</td></tr><tr><td colspan="3" class="bordo">'+v['Descrizione']+'</td></tr>');
                                                     table.append(row);
                                                 });
                                                 $('#contentASGDinamic').append(table);
@@ -148,6 +156,12 @@ function funcEliminaEvento(a){
     $.getJSON('scriptPHP/deleteEvento.php',json,function(response){
         if(response){
             alert(response);
+            $('#contentEventi').hide();
+            $('#contentBenvenuto').show();
+
+            $('#contentNonLoggato').hide();
+            $('#contentLoggato').hide();
+            $('#contentNonLoggatoSuccessiva').show();
         }
     });
 }
@@ -173,9 +187,11 @@ function funcNoleggia(a,b){
                 
                 $.getJSON('scriptPHP/getMiriniASG.php',function(response) {
                     if(response){
+                        alert('miriiiiini');
+                        $('#tdSelectMirinoASG').empty();
                         var select = $('<select id="selectMirini" class="selectInitMirini"></select>');
                         $.each(response,function(k,v){
-                            var row = $('<option value="'+v['id']+'" onchange="funcPopup1(' + v['Descrizione'] + ');" onmouseout="funcPopup(0);">' + v['Nome'] + '</option>');
+                            var row = $('<option value="'+v['id']+'">' + v['Nome'] + '</option>');
                             select.append(row);
                         });
                         $('#tdSelectMirinoASG').append(select);
@@ -188,32 +204,32 @@ function funcNoleggia(a,b){
                 
                 $.getJSON('scriptPHP/getCaricatoriASG.php',function(response) {
                     if(response){
+                        $('#tdSelectCaricatoreASG').empty();
                         var select = $('<select id="selectCaricatori" class="selectInitCaricatori"></select>');
                         $.each(response,function(k,v){
-                            var row = $('<option value="'+v['id']+'" onchange="funcPopup2(' + v['Descrizione'] + ');" onmouseout="funcPopup(0);">' + v['Nome'] + '</option>');
+                            var row = $('<option value="'+v['id']+'">' + v['Nome'] + '</option>');
                             select.append(row);
                         });
                         $('#tdSelectCaricatoreASG').append(select);
                         
                         $(document).ready(function() {
                             $('.selectInitCaricatori').material_select();
-                            $('.collapsibleCaricatori').collapsible();
                         });
                     }
                 });
                 
                 $.getJSON('scriptPHP/getCalciASG.php',function(response) {
                     if(response){
+                        $('#tdSelectCalcioAnterioreASG').empty();
                         var select = $('<select id="selectCalci" class="selectInitCalci"></select>');
                         $.each(response,function(k,v){
-                            var row = $('<option value="'+v['id']+'" onchange="funcPopup3(' + v['Descrizione'] + ');" onmouseout="funcPopup(0);">' + v['Nome'] + '</option>');
+                            var row = $('<option value="'+v['id']+'">' + v['Nome'] + '</option>');
                             select.append(row);
                         });
                         $('#tdSelectCalcioAnterioreASG').append(select);
                         
                         $(document).ready(function() {
                             $('.selectInitCalci').material_select();
-                            $('.collapsibleCalci').collapsible();
                         });
                     }
                 });
@@ -245,21 +261,6 @@ function funcNoleggia(a,b){
     });
 }
 
-function funcPopup1(a){
-    $('#descrizioneSelectMirinoASG').empty();
-    document.getElementById("descrizioneSelectMirinoASG").innerHTML = a;
-}
-
-function funcPopup2(a){
-    $('#descrizioneSelectCaricatoreASG').empty();
-    document.getElementById("descrizioneSelectCaricatoreASG").innerHTML = a;
-}
-
-function funcPopup3(a){
-    $('#descrizioneSelectCalcioASG').empty();
-    document.getElementById("descrizioneSelectCalcioASG").innerHTML = a;
-}
-
 function funcUtente(a){
     $('#contentSquadraDinamic').empty();
     
@@ -268,7 +269,7 @@ function funcUtente(a){
         if(response){
             var table = $('<table id="tbSquadra" class="responsive-table"></table>');
             $.each(response,function(k,v){
-                var row = $('<tr><td><h3>'+v['Nickname']+'</h3></td><td> '+v['Ruolo']+'</td><td> '+v['Stato']+'</td></tr><tr><td colspan="3" class="bordo">'+v['Descrizione']+'</td></tr><td colspan="3"><button id="btnModificaUtente" class="btn btn-primary">Modifica</button></td></tr>');
+                var row = $('<tr><td><h3>'+v['Nickname']+'</h3></td><td> '+v['Ruolo']+'</td><td> '+v['Stato']+'</td></tr><tr><td colspan="3"><img class="responsive-img imgRinchiusa" src="immagini/squadra/'+v['Nickname']+'.jpg"></td></tr><tr><td colspan="3" class="bordo">'+v['Descrizione']+'</td></tr><td colspan="3"><button id="btnModificaUtente" class="btn btn-primary">Modifica</button></td></tr>');
                 table.append(row);
             })
             
@@ -283,7 +284,7 @@ function funcUtente(a){
                 }
             });
             
-            $('#btnModificaUtente').click(function() {
+            $('#btnModificaUtente').unbind().click(function() {
                 $('#contentSquadraDinamic').hide();
                 $('#contentBtnModificaUtente').hide();
                 $('#contentUpdateUtente').show();
@@ -360,20 +361,78 @@ function funcCampo(a){
         if(response){
             var table = $('<table id="tbCampi" class="responsive-table"></table>');
             $.each(response,function(k,v){
-                var row = $('<tr><td class="bordo"><h3>'+v['NomeCampo']+'</h3></td><td class="bordo"> '+v['Via']+'</td></tr><tr><td id="btnGestione" colspan="2"><iframe src="'+v['Mappa']+'" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe></td></tr><tr><td id="btnGestione" colspan="2"><button id="btnModificaCampo" class="btn btn-primary">Modifica</button></td></tr>');
+                var row = $('<tr><td class="bordo"><h3>'+v['NomeCampo']+'</h3></td><td class="bordo"> '+v['Via']+'</td><td class="bordo"> '+v['Localita']+'</td></tr><tr><td id="btnGestione" colspan="3"><iframe src="'+v['Mappa']+'" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe></td></tr><tr><td id="btnGestione" colspan="3"><button id="btnModificaCampo" class="btn btn-primary">Modifica campo</button></td></tr><tr><td id="btnGestione" colspan="3"><button id="btnEliminaCampo" class="btn btn-primary">Elimina campo</button></td></tr>');
                 table.append(row);
             });
+            $('#contentCampoDinamic').append(table);
             
             $('#btnModificaCampo').hide();
+            $('#btnEliminaCampo').hide();
             
             $.getJSON('scriptPHP/utentePermisWiew.php',function(response) {
                 if(response){
                     if(response=='show'){
                         $('#btnModificaCampo').show();
+                        $('#btnEliminaCampo').show();
                     }
                 }
             });
-            $('#contentCampoDinamic').append(table);
+            
+            $('#btnModificaCampo').unbind().click(function(){
+                $('#contentCampoDinamic').hide();
+                $('#divMappaCampoI').hide();
+                $('#contentInsertCampo').show();
+                
+                var button = $('<button id="btnUpdateCampo" class="btn btn-primary">Modiica CAMPO</button>')
+                $('#contentBtnInserisciCampo').empty();
+                $('#contentBtnInserisciCampo').append(button);
+                
+                document.getElementById("nomeCampoI").value = "";
+                document.getElementById("localitaCampoI").value = "";
+                document.getElementById("viaCampoI").value = "";
+                
+                $.each(response,function(k,v){
+                    document.getElementById("nomeCampoI").innerHTML = v['NomeCampo'];
+                    document.getElementById("localitaCampoI").innerHTML = v['Localita'];
+                    document.getElementById("viaCampoI").innerHTML = v['Via'];
+                });
+                
+                $('#btnUpdateASG').unbind().click(function(){
+                    var nome = $('#nomeCampoI').val();
+                    var localita = $('#localitaCampoI').val();
+                    var via = $('#viaCampoI').val();
+                    
+                    var json = {"id":a, "nome":nome, "localita":localita, "via":via};
+                    
+                    $.getJSON('scriptPHP/updateCampo.php',json,function(response) {
+                        if(response){
+                            alert(response);
+                            $('#contentCampo').hide();
+                            $('#contentBenvenuto').show();
+    
+                            $('#contentNonLoggato').hide();
+                            $('#contentLoggato').hide();
+                            $('#contentNonLoggatoSuccessiva').show();
+                        }
+                    });
+                });
+            });
+            
+            $('#btnEliminaCampo').unbind().click(function(){
+                var json = {"id":a};
+                
+                $.getJSON('scriptPHP/deleteCampo.php',json,function(response) {
+                    if(response){
+                        alert(response);
+                        $('#contentCampo').hide();
+                        $('#contentBenvenuto').show();
+
+                        $('#contentNonLoggato').hide();
+                        $('#contentLoggato').hide();
+                        $('#contentNonLoggatoSuccessiva').show();
+                    }
+                });
+            });
         }
     });
 }
@@ -387,12 +446,72 @@ function funcASG(a){
         if(response){
             var table = $('<table id="tbDescASG" class="responsive-table"></table>');
             $.each(response,function(k,v){
-                var row = $('<tr><td><h3>'+v['Nome']+'</h3></td><td>Marca: '+v['Marca']+'</td><td>Potenza: '+v['Potenza']+'</td></tr><tr><td colspan="3"><img class="responsive-img imgRinchiusa" src="immagini/armi/'+v['Nome']+'.jpg"></td></tr><tr><td colspan="3" class="bordo">'+v['Descrizione']+'</td></tr>');
+                var row = $('<tr><td><h3>'+v['Nome']+'</h3></td><td>Marca: '+v['Marca']+'</td><td>Potenza: '+v['Potenza']+'</td></tr><tr><td colspan="3"><img class="responsive-img imgRinchiusa" src="immagini/armi/'+v['Nome']+'.jpg"></td></tr><tr><td colspan="3">'+v['Descrizione']+'</td></tr><tr><td colspan="3"><button id="btnModificaASG" class="btn btn-primary">MODIFICA ARMA</button></td></tr><tr><td colspan="3" class="bordo"><button id="btnEliminaASG" class="btn btn-primary">ELIMINA ARMA</button></td></tr>');
                 table.append(row);
             });
             $('#contentASGDinamic').append(table);
+            
+            $('#btnModificaASG').unbind().click(function(){
+                $('#contentASGDinamic').hide();
+                $('#contentInserimentoASG').show();
+                
+                var button = $('<button id="btnUpdateASG" class="btn btn-primary">Modifica ARMA</button>')
+                $('#divBtnAggiungiASG').empty();
+                $('#divBtnAggiungiASG').append(button);
+                
+                document.getElementById("nomeASG").value = "";
+                document.getElementById("marcaASG").value = "";
+                document.getElementById("descrizioneASG").value = "";
+                document.getElementById("potenzaASG").value = "";
+                
+                $.each(response,function(k,v){
+                    document.getElementById("nomeASG").innerHTML = v['Nome'];
+                    document.getElementById("marcaASG").innerHTML = v['Marca'];
+                    document.getElementById("descrizioneASG").innerHTML = v['Descrizione'];
+                    document.getElementById("potenzaASG").innerHTML = v['Potenza'];
+                });
+                
+                $('#btnUpdateASG').unbind().click(function(){
+                    var nome = $('#nomeASG').val();
+                    var marca = $('#marcaASG').val();
+                    var potenza = $('#potenzaASG').val();
+                    var desc = $('#descrizioneASG').val();
+                    
+                    var json = {"id":a, "nome":nome, "marca":marca, "potenza":potenza, "desc":desc};
+                    
+                    $.getJSON('scriptPHP/updateASG.php',json,function(response) {
+                        if(response){
+                            alert(response);
+                            $('#contentASG').hide();
+                            $('#contentBenvenuto').show();
+    
+                            $('#contentNonLoggato').hide();
+                            $('#contentLoggato').hide();
+                            $('#contentNonLoggatoSuccessiva').show();
+                        }
+                    });
+                });
+            });
+            
+            $('#btnEliminaASG').unbind().click(function(){
+                var json = {"id":a};
+                
+                $.getJSON('scriptPHP/deleteASG.php',json,function(response) {
+                    if(response){
+                        alert(response);
+                        $('#contentASG').hide();
+                        $('#contentBenvenuto').show();
+
+                        $('#contentNonLoggato').hide();
+                        $('#contentLoggato').hide();
+                        $('#contentNonLoggatoSuccessiva').show();
+                    }
+                });
+            });
         }
     });
+    
+    
 }
 
 function funcLogin(){
@@ -442,7 +561,7 @@ function funcSignup(){
     $('#contentUtenti').hide();
     $('#contentSignin').show();
     
-    $('#inviaSignin').click(function() {
+    $('#inviaSignin').unbind().click(function() {
         var nick = $('#nickSU').val();
         var pass = $('#passSU').val();
         var email = $('#emailSU').val();
@@ -566,17 +685,16 @@ $(document).ready(function(){
                     var data =  v['Data'];
                     var dateAr = data.split('-');
                     var newDate = dateAr[2] + '/' + dateAr[1] + '/' + dateAr[0];
-                    var row = $('<tr><td><h3><a id="descEvento" href="" class="black-text" onclick="funcEvento('+v['id']+');return false;">'+v['Nome']+'</a></h3></td><td> '+newDate+'</td></tr><tr><td colspan="2"><h5><a id="descEvento" href="" class="black-text" onclick="funcCampo('+v['idCampo']+');return false;">'+v['NomeCampo']+'</a></h5></td></tr><tr><td colspan="2">'+v['Descrizione']+'</td></tr><tr><td colspan="2" class="bordo"><div align="center"><button id="eliminaEvento" class="btn btn-primary" onclick="funcEliminaEvento('+v['id']+')">ELIMINA EVENTO</button></div></td></tr>');
+                    var row = $('<tr><td><h3><a id="descEvento" href="" class="black-text" onclick="funcEvento('+v['id']+');return false;">'+v['Nome']+'</a></h3></td><td> '+newDate+'</td></tr><tr><td colspan="2"><h5><a id="descEvento" href="" class="black-text" onclick="funcCampo('+v['idCampo']+');return false;">'+v['NomeCampo']+'</a></h5></td></tr><tr><td colspan="2" class="bordo">'+v['Descrizione']+'</td></tr>');
                     table.append(row);
                 });
                 $('#contentEventiDinamic').append(table);
-                $('#eliminaEvento').hide();
+                
                 
                 $.getJSON('scriptPHP/eventoPermisWiew.php',function(response) {
                     if(response){
                         if(response=='show'){
                             $('#btnInserisciEvento').show();
-                            $('#eliminaEvento').show();
                         }
                     }
                 });
@@ -614,7 +732,7 @@ $(document).ready(function(){
             $('#btnEventoInserisciModifica').empty();
             $('#btnEventoInserisciModifica').append(button);
             
-            $('#inserisciEvento').click(function() {
+            $('#inserisciEvento').unbind().click(function() {
                 var data =  $('#dataInserimentoEvento').val();
                 var dateAr = data.split(' ');
                 
@@ -704,6 +822,8 @@ $(document).ready(function(){
             }
         });
         
+        $('#btnInserisciCampo').hide();
+        
         $.getJSON('scriptPHP/utentePermisWiew.php',function(response) {
             if(response){
                 if(response=='show'){
@@ -712,13 +832,23 @@ $(document).ready(function(){
             }
         });
         
-        $('#btnInserisciCampo').click(function() {
+        $('#btnInserisciCampo').unbind().click(function() {
             $('#btnInserisciCampo').hide();
             $('#contentUpdateCampo').hide();
             $('#contentCampoDinamic').hide();
             $('#contentInsertCampo').show();
+            $('#divMappaCampoI').show();
             
-            $('#btnInseritCampo').click(function() {
+            var button = $('<button id="btnInseritCampo" class="btn btn-primary">INSERISCI CAMPO</button>')
+            $('#contentBtnInserisciCampo').empty();
+            $('#contentBtnInserisciCampo').append(button);
+            
+            document.getElementById("nomeCampoI").value = "";
+            document.getElementById("viaCampoI").value = "";
+            document.getElementById("localitaCampoI").value = "";
+            document.getElementById("mappaCampoI").value = "";
+            
+            $('#btnInseritCampo').unbind().click(function() {
                 var nome = $('#nomeCampoI').val();
                 var via = $('#viaCampoI').val();
                 var loc = $('#localitaCampoI').val();
@@ -774,12 +904,21 @@ $(document).ready(function(){
             }
         });
         
-        $('#btnInserisciASG').click(function() {
+        $('#btnInserisciASG').unbind().click(function() {
             $('#btnInserisciASG').hide();
             $('#contentASGDinamic').hide();
             $('#contentInserimentoASG').show();
             
-            $('#btnInsertASG').click(function() {
+            document.getElementById("nomeASG").value = "";
+            document.getElementById("marcaASG").value = "";
+            document.getElementById("potenzaASG").value = "";
+            document.getElementById("descrizioneASG").value = "";
+            
+            var button = $('<button id="btnInsertASG" class="btn btn-primary">INSERISCI ARMA</button>')
+            $('#divBtnAggiungiASG').empty();
+            $('#divBtnAggiungiASG').append(button);
+            
+            $('#btnInsertASG').unbind().click(function() {
                 
                 $.getJSON('scriptPHP/sessionWiew.php',function(response) {
                     if(response){
