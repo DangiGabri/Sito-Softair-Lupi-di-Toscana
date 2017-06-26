@@ -1,40 +1,44 @@
 .stretchImg{
-			width:100%;
-			height:300px;
-		}
-		
-		.icons{
-			width:80px;
-			height:80px;
-		}
-		
-		.bordo{
-			border-bottom-color: black;
-			border-bottom-style: solid;
-			border-bottom-width: 1px;
-		}
-		
-		.imgRinchiusa {
-			display: block;
-			margin: 0 auto;
-		}
-		
-		#faqs{
-			background-color: #616161;
-		}
-		
-		#principale{
-			background-image: url("../immagini/varie/roma.jpg");
-		}
-		
-		#btnGestione{
-			text-align: center;
-		}
-		
-		input{
-			text-align: center;
-		}
-		
-		td{
-			text-align: center;
-		}
+	width:100%;
+	height:300px;
+}
+
+.icons{
+	width:80px;
+	height:80px;
+}
+
+.bordo{
+	border-bottom-color: black;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+}
+
+.imgRinchiusa {
+	display: block;
+	margin: 0 auto;
+}
+
+#faqs{
+	background-color: #616161;
+}
+
+#principale{
+	background-image: url("../immagini/varie/roma.jpg");
+}
+
+#btnGestione{
+	text-align: center;
+}
+
+input{
+	text-align: center;
+}
+
+td{
+	text-align: center;
+}
+
+button{
+	background-image: url("../immagini/varie/roma.jpg");
+}

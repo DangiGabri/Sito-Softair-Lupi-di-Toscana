@@ -6,7 +6,10 @@
 	
 	$_SESSION['esiste']=0;
 
-	if($_SESSION['esiste']==0){
+	if($_GET['nick'] == "campi"){
+		echo json_encode('Non tutti i campi sono riempiti.');
+	}
+	else{
 	    try{
 	    	
 			$dbh = new PDO('mysql:host='.$host.';dbname='.$dbNome,$username,$password);

@@ -1,3 +1,5 @@
+var ciclo = 0;
+
 function funcEvento(a){
     $('#contentEventiDinamic').empty();
     
@@ -187,7 +189,6 @@ function funcNoleggia(a,b){
                 
                 $.getJSON('scriptPHP/getMiriniASG.php',function(response) {
                     if(response){
-                        alert('miriiiiini');
                         $('#tdSelectMirinoASG').empty();
                         var select = $('<select id="selectMirini" class="selectInitMirini"></select>');
                         $.each(response,function(k,v){
@@ -237,20 +238,31 @@ function funcNoleggia(a,b){
                 $('#btnPrenotaASG').unbind().click(function(){
                     $.getJSON('scriptPHP/sessionWiew.php',function(response){
                         if(response){
-                            var caric = $('#selectCaricatori').val();
-                            var mirino = $('#selectMirini').val();
-                            var calcio = $('#selectCalci').val();
                             
-                            var json = {"idUtente":response,"idASG":a,"idEvento":b,"caric":caric,"mirino":mirino,"calcio":calcio};
+                            var json = {"idUtente":response,"idASG":a,"idEvento":b};
                             $.getJSON('scriptPHP/insertNoleggio.php',json,function(response){
                                 if(response){
-                                    alert(response);
-                                    $('#contentASG').hide();
-                                    $('#contentBenvenuto').show();
-        
-                                    $('#contentNonLoggato').hide();
-                                    $('#contentLoggato').hide();
-                                    $('#contentNonLoggatoSuccessiva').show();
+                                    if(response != null){
+                                        var caric = $('#selectCaricatori').val();
+                                        var mirino = $('#selectMirini').val();
+                                        var calcio = $('#selectCalci').val();
+                                        
+                                        var json = {"idUtente":response,"idASG":a,"idEvento":b,"caric":caric,"mirino":mirino,"calcio":calcio};
+                                        $.getJSON('scriptPHP/insertNoleggioUpgrade.php',json,function(response){
+                                            if(response){
+                                                alert(response);
+                                                $('#contentASG').hide();
+                                                $('#contentBenvenuto').show();
+                    
+                                                $('#contentNonLoggato').hide();
+                                                $('#contentLoggato').hide();
+                                                $('#contentNonLoggatoSuccessiva').show();
+                                            }
+                                        });
+                                    }
+                                    else{
+                                        alert('Errore!!');
+                                    }
                                 }
                             });
                         }
@@ -342,6 +354,11 @@ function funcUtente(a){
                         if(response){
                             alert(response);
                             $('#contentUpdateUtente').hide();
+                            $('#contentBenvenuto').show();
+    
+                            $('#contentNonLoggato').hide();
+                            $('#contentLoggato').hide();
+                            $('#contentNonLoggatoSuccessiva').show();
                         }
                     });
                 });
@@ -551,49 +568,57 @@ function funcLogin(){
 }
 
 function funcSignup(){
-    $('#contentBenvenuto').hide();
-    $('#contentLogin').hide();
-    $('#contentEventi').hide();
-    $('#contentASG').hide();
-    $('#contentCampo').hide();
-    $('#contentDescEventi').hide();
-    $('#contentSquadra').hide();
-    $('#contentUtenti').hide();
-    $('#contentSignin').show();
+    do{
+        ciclo = 0;
     
-    $('#inviaSignin').unbind().click(function() {
-        var nick = $('#nickSU').val();
-        var pass = $('#passSU').val();
-        var email = $('#emailSU').val();
-        var nome = $('#nomeSU').val();
-        var cognome = $('#cognomeSU').val();
-        var json = {"nick":nick, "pass":pass, "nome":nome, "cognome":cognome, "email":email};
-        $.getJSON('scriptPHP/signup.php',json,function(response){
-            if(response){
-                
-                var json = {"nick":response};
-                $.getJSON('scriptPHP/setSession.php',json,function(response){
-                    if(response){
-                        alert(response);
-                    }
-                });
-                
-                $('#contentSignin').hide();
-                $('#btnLogout').show();
-                $('#tue_asg').show();
-                document.getElementById("nickSU").value = "";
-                document.getElementById("passSU").value = "";
-                document.getElementById("emailSU").value = "";
-                document.getElementById("nomeSU").value = "";
-                document.getElementById("cognomeSU").value = "";
-                $('#contentBenvenuto').show();
+        $('#contentBenvenuto').hide();
+        $('#contentLogin').hide();
+        $('#contentEventi').hide();
+        $('#contentASG').hide();
+        $('#contentCampo').hide();
+        $('#contentDescEventi').hide();
+        $('#contentSquadra').hide();
+        $('#contentUtenti').hide();
+        $('#contentSignin').show();
         
-                $('#contentNonLoggato').hide();
-                $('#contentLoggato').hide();
-                $('#contentNonLoggatoSuccessiva').show();
-            }
+        $('#inviaSignin').unbind().click(function() {
+            var nick = $('#nickSU').val();
+            var pass = $('#passSU').val();
+            var email = $('#emailSU').val();
+            var nome = $('#nomeSU').val();
+            var cognome = $('#cognomeSU').val();
+            var json = {"nick":nick, "pass":pass, "nome":nome, "cognome":cognome, "email":email};
+            $.getJSON('scriptPHP/signup.php',json,function(response){
+                if(response){
+                    
+                    ciclo = response;
+                    
+                    var json = {"nick":response};
+                    $.getJSON('scriptPHP/setSession.php',json,function(response){
+                        if(response){
+                            alert(response);
+                        }
+                    });
+                    
+                    if(response != "campi" || response != "Username non valido." || response != "Errore!!"){
+                        $('#contentSignin').hide();
+                        $('#btnLogout').show();
+                        $('#tue_asg').show();
+                        document.getElementById("nickSU").value = "";
+                        document.getElementById("passSU").value = "";
+                        document.getElementById("emailSU").value = "";
+                        document.getElementById("nomeSU").value = "";
+                        document.getElementById("cognomeSU").value = "";
+                        $('#contentBenvenuto').show();
+                
+                        $('#contentNonLoggato').hide();
+                        $('#contentLoggato').hide();
+                        $('#contentNonLoggatoSuccessiva').show();
+                    }
+                }
+            });
         });
-    });
+    }while(ciclo == "campi" || ciclo == "Username non valido." || ciclo == "Errore!!");
 }
 
 $(document).ready(function(){
