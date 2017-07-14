@@ -20,7 +20,7 @@
 				$a = $stm->fetchAll();
 				$_SESSION['permesso'] = $a[0]['idPermesso'];
 				$_SESSION['esiste']=$a[0]['id'];
-				echo json_encode('Registrato');
+				echo json_encode('Registrazione completata!');
     		}
     		else
     		{

@@ -18,13 +18,16 @@
 		<header>
 			<img src="immagini/varie/CopertinaSito.png" class="stretchImg">
 		</header>
+		
 		<body id="principale">
 			
 			<ul id="dropdown1" class="dropdown-content">
 			  <li><a id="campi" class="#ffffff white red-text">I NOSTRI CAMPI</a></li>
 			  <li><a id="storia" class="#ffffff white red-text">STORIA</a></li>
+			  <li><a id="stat" class="#ffffff white red-text">RANK & STATS</a></li>
 			</ul>
-			<nav>
+			
+			<nav id="nav" class="clearfix">
 				<div class="nav-wrapper white" >
 					<ul class="left">
 						<li><a id="home" class="#ffffff white red-text">HOME</a></li>
@@ -47,15 +50,26 @@
 			<div class="container row #ffffff white">
 				<div id="contentBenvenuto" align="center" class="col s10 offset-s1">
 					<div id="contentNonLoggato" align="center">
-						<h3>Benvenuto!!</h3></br>
+						<h2><span id="font">Benvenuto!!</span></h2></br>
 						<h4>Questa è la pagina di</br>Softair <span class="red-text text-darken-3">Lupi</span> di <span class="red-text text-darken-3">Toscana</span>!</h4></br>
 						<h5><b>Fai già parte di noi?</b></br></br>Se <b>sì</b>, allora effettua subito il <a href="" class="black-text" onclick="funcLogin();return false;">LOGIN</a> per poter partecipare agli eventi.</br></br>Altrimenti, se vuoi prendere parte alle nostre giocate, <a href="" class="black-text" onclick="funcSignup();return false;">REGISTRATI</a>.</h5>
 					</div>
+					
 					<div id="contentLoggato" align="center">
-						<h3>Statistiche personali:</h3>
 						<table>
 							<tr>
-								<td id="imgUtenteLoggato" colspan="2">
+								<td colspan="2"><h3>Classifica:</h3></td>
+							</tr>
+							<tr>
+								<td id="classifica" colspan="2">
+									<table id="tbClassifica" class="responsive-table striped bordered"></table>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2"><h3>Statistiche personali:</h3></td>
+							</tr>
+							<tr>
+								<td id="imgUtenteLoggatoUnico" colspan="2">
 									
 								</td>
 							</tr>
@@ -63,17 +77,37 @@
 								<td colspan="2"><h4>Statistiche partite.</h4></td>
 							</tr>
 							<tr>
+								<td class="stat" colspan="2">Partite giocate:</td>
+							</tr>
+							<tr>
 								<td id="nPartiteGiocate" class="stat" colspan="2"></td>
+							</tr>
+							<tr>
+								<td class="stat">Partite vinte:</td>
+								<td class="stat">Partite perse:</td>
 							</tr>
 							<tr>
 								<td id="nPartiteVinte" class="stat"></td>
 								<td id="nPartitePerse" class="stat"></td>
 							</tr>
 							<tr>
+								<td class="stat" colspan="2">Percentuale di vittoria:</td>
+							</tr>
+							<tr>
+								<td id="percentualeVinte" class="stat" colspan="2"></td>
+							</tr>
+							<tr>
 								<td colspan="2"><h4>Statistiche Uccisioni/Morti.</h4></td>
 							</tr>
 							<tr>
+								<td class="stat" colspan="2">Kill/Death ratio:</td>
+							</tr>
+							<tr>
 								<td id="KDRatio" class="stat" colspan="2"></td>
+							</tr>
+							<tr>
+								<td class="stat">Uccisioni:</td>
+								<td class="stat">Morti:</td>
 							</tr>
 							<tr>
 								<td id="uccisioni" class="stat"></td>
@@ -85,11 +119,9 @@
 							<tr>
 								<td id="encomi" class="stat" colspan="2"></td>
 							</tr>
-							<tr>
-								<td colspan="2"><h4><a id="visClassifica" href="" onclick="funcClassifica();return false;">Visualizza classifica</a></h4></td>
-							</tr>
 						</table>
 					</div>
+					
 					<div id="contentNonLoggatoSuccessiva" align="center">
 						<table>
 							<tr>
@@ -213,6 +245,36 @@
 							</tr>
 						</table>
 					</div>
+					
+					<div id="contentUltimoPassaggio" align="center">
+						<h4>
+							Ora non ti resta che confermare la tua registrazione.</br>
+							Clicca sul link contenuto nella email inviata alla tua casella di posta.</br></br>
+							<b>NOTA BENE!!</b></br>
+							Nel caso in cui nella tua casella di posta non fosse presente l'email di conferma:</br>
+							1)controlla la sezione "Spam";
+							2)se non è presente neanche tra lo spam allora invia una email spiegando il problema a "softairlupiditoscana@gmail.com".</br></br>
+							Grazie e buon divertimento!!
+						</h4>
+					</div>
+					
+					<div id="contentNotizie" align="center">
+						</br><button id="btnInserisciNotizia" class="btn btn-primary">INSERISCI NOTIZIA</button>
+						
+						<div id="contentNotizieDinamic" align="center">
+							
+						</div>
+						
+						<div id="contentInserimentoNotizia" align="center" class="col s10 offset-s1 input-field">
+							Titolo<input type="text" id="titoloNotizia" value=""></br>
+							Descrizione<textarea id="descrizioneNotizia" class="materialize-textarea">
+								
+							</textarea></br>
+							<div id="btnNotiziaInserisciModifica">
+								
+							</div></br>
+						</div>
+					</div>
 				</div>
 				
 				<div id="contentLogin" align="center" class="col s10 offset-s1">
@@ -233,9 +295,11 @@
 				
 				<div id="contentEventi" align="center" class="col s10 offset-s1 input-field">
 					</br><button id="btnInserisciEvento" class="btn btn-primary">INSERISCI EVENTO</button>
+					
 					<div id="contentEventiDinamic" align="center" class="col s10 offset-s1 input-field">
 						
 					</div>
+					
 					<div id="contentInserimentoEventi" align="center" class="col s10 offset-s1 input-field">
 						Nome<input type="text" id="nomeEvento" value=""></br>
 						Data<input id="dataInserimentoEvento" type="date" class="datepicker"></br>
@@ -253,9 +317,11 @@
 				
 				<div id="contentASG" align="center" class="col s10 offset-s1">
 					</br><button id="btnInserisciASG" class="btn btn-primary">INSERISCI ARMA</button>
+					
 					<div id="contentASGDinamic" align="center">
 						
 					</div>
+					
 					<div id="contentInserimentoASG" align="center">
 						Nome<input type="text" id="nomeASG" value=""></br>
 						Marca<input type="text" id="marcaASG" value=""></br>
@@ -267,12 +333,14 @@
 							
 						</div>
 					</div>
+					
 					<div id="contentPartecipaASG" class="input-field" align="center">
 						<h3>Possiedi un'ASG(Air Soft Gun)?</h3></br>
 						<h4>Se sì presentati al campo da gioco munito di tale arma!</h4></br>
 						<h4>Se non ne possiedi puoi noleggiarne una da noi! Decidi te la configurazione!</h4></br>
 						<button id="btnNoleggiaASG" class="btn btn-primary">NOLEGGIA ARMA</button>
 					</div>
+					
 					<div id="contentNoleggiaASG" class="input-field" align="center">
 						<table>
 							<tr>
@@ -332,9 +400,11 @@
 				
 				<div id="contentCampo" align="center" class="col s10 offset-s1">
 					</br><button id="btnInserisciCampo" class="btn btn-primary">INSERISCI CAMPO</button>
+					
 					<div id="contentCampoDinamic" align="center">
 					
 					</div>
+					
 					<div id="contentInsertCampo" align="center">
 						Nome <input type="text" id="nomeCampoI" valur=""></br>
 						Località <input type="text" id="localitaCampoI" valur=""></br>
@@ -354,6 +424,7 @@
 					<div id="contentSquadraDinamic" align="center">
 						
 					</div>
+					
 					<div id="contentUpdateUtente" align="center">
 						<table id="tbUpdateSquadra" class="responsive-table">
 							<tr>
@@ -399,11 +470,30 @@
 						<td>
 							<a href="https://www.youtube.com/channel/UC90jIZvP2vQe2cnzr4EyVqQ"><img src="immagini/varie/YouTube.PNG" class="circle icons"></a>
 						</td>
+						<td>
+							<a href="https://www.instagram.com/lupiditoscana_softair/"><img src="immagini/varie/Instagram.jpg" class="circle icons"></a>
+						</td>
 					</tr>
 				</table>
 			</div>
 		</div>
+		<div class="footer-copyright">
+            <div class="container" align="center">
+            	Contattaci tramite e-mail a: softairlupiditoscana@gmail.com</br></br>
+            	Questo sito è realizzato a mano da noi del gruppo, eventuali errori e imperfezioni sono inevitabili. In caso ne riscontraste alcuni vi preghiamo di farcelo presente via e-mail.
+        	</div>
+    	</div>
 	</footer>
 	
 	<script src="scriptJS/jquery.js"></script>
+	<script src="scriptJS/asg.js"></script>
+	<script src="scriptJS/campi.js"></script>
+	<script src="scriptJS/eventi.js"></script>
+	<script src="scriptJS/home.js"></script>
+	<script src="scriptJS/login.js"></script>
+	<script src="scriptJS/logout.js"></script>
+	<script src="scriptJS/signup.js"></script>
+	<script src="scriptJS/squadra.js"></script>
+	<script src="scriptJS/storia.js"></script>
+	<script src="scriptJS/stat.js"></script>
 </html>

@@ -10,7 +10,7 @@
 	    try{
 	    	
 			$dbh = new PDO('mysql:host='.$host.';dbname='.$dbNome,$username,$password);
-			$stm = $dbh->prepare('SELECT u.id,p.idPermesso FROM SitoSoftairLupiDiToscana.Utente u inner join SitoSoftairLupiDiToscana.Permessi p on (u.Permessi=p.idPermesso) WHERE u.Password=:password and u.Nickname=:username');
+			$stm = $dbh->prepare('SELECT u.id,p.idPermesso FROM SitoSoftairLupiDiToscana.Utente u inner join SitoSoftairLupiDiToscana.Permessi p on (u.Permessi=p.idPermesso) WHERE u.Password=:password and u.Nickname=:username and u.Confermato=1');
 			$stm->bindValue(':username',$_GET['nick']);
 			$stm->bindValue(':password',$_GET['pass']);
 			$stm->execute();
